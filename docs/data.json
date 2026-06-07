@@ -1,4 +1,245 @@
 {
-  "runs": [],
-  "updated": null
+  "runs": [
+    {
+      "date": "2026-06-05",
+      "name": "Kirklees - Anaerobic",
+      "distance_km": 8.13,
+      "duration": "53:27",
+      "pace": "6:34 /km",
+      "avg_hr": 140
+    },
+    {
+      "date": "2026-06-03",
+      "name": "Kirklees - Base",
+      "distance_km": 5.39,
+      "duration": "34:04",
+      "pace": "6:19 /km",
+      "avg_hr": 135
+    },
+    {
+      "date": "2026-06-02",
+      "name": "Wiltshire - Base",
+      "distance_km": 5.38,
+      "duration": "34:15",
+      "pace": "6:21 /km",
+      "avg_hr": 139
+    },
+    {
+      "date": "2026-06-01",
+      "name": "Kirklees - Threshold",
+      "distance_km": 6.51,
+      "duration": "39:05",
+      "pace": "6:00 /km",
+      "avg_hr": 144
+    },
+    {
+      "date": "2026-05-30",
+      "name": "Kirklees - Long Run",
+      "distance_km": 13.59,
+      "duration": "1:29:08",
+      "pace": "6:33 /km",
+      "avg_hr": 139
+    },
+    {
+      "date": "2026-05-29",
+      "name": "Kirklees - Base",
+      "distance_km": 10.48,
+      "duration": "1:10:10",
+      "pace": "6:41 /km",
+      "avg_hr": 137
+    },
+    {
+      "date": "2026-05-27",
+      "name": "Copeland - Base",
+      "distance_km": 10.58,
+      "duration": "1:10:08",
+      "pace": "6:37 /km",
+      "avg_hr": 139
+    },
+    {
+      "date": "2026-05-26",
+      "name": "Copeland - Base",
+      "distance_km": 6.21,
+      "duration": "40:05",
+      "pace": "6:27 /km",
+      "avg_hr": 138
+    },
+    {
+      "date": "2026-05-25",
+      "name": "Copeland - Base",
+      "distance_km": 8.36,
+      "duration": "55:09",
+      "pace": "6:36 /km",
+      "avg_hr": 142
+    },
+    {
+      "date": "2026-05-23",
+      "name": "Kirklees - Long Run",
+      "distance_km": 10.58,
+      "duration": "1:09:04",
+      "pace": "6:31 /km",
+      "avg_hr": 145
+    },
+    {
+      "date": "2026-05-22",
+      "name": "Kirklees - Anaerobic",
+      "distance_km": 7.7,
+      "duration": "50:08",
+      "pace": "6:30 /km",
+      "avg_hr": 147
+    },
+    {
+      "date": "2026-05-20",
+      "name": "Kirklees - VO2 Max",
+      "distance_km": 7.27,
+      "duration": "46:08",
+      "pace": "6:20 /km",
+      "avg_hr": 144
+    },
+    {
+      "date": "2026-05-19",
+      "name": "Kirklees - Base",
+      "distance_km": 5.31,
+      "duration": "34:06",
+      "pace": "6:25 /km",
+      "avg_hr": 140
+    },
+    {
+      "date": "2026-05-18",
+      "name": "Kirklees - VO2 Max",
+      "distance_km": 6.65,
+      "duration": "42:09",
+      "pace": "6:20 /km",
+      "avg_hr": 144
+    },
+    {
+      "date": "2026-05-16",
+      "name": "Kirklees - Base",
+      "distance_km": 8.18,
+      "duration": "52:06",
+      "pace": "6:22 /km",
+      "avg_hr": 142
+    },
+    {
+      "date": "2026-05-15",
+      "name": "Kirklees - Sprint",
+      "distance_km": 5.22,
+      "duration": "38:55",
+      "pace": "7:27 /km",
+      "avg_hr": 125
+    },
+    {
+      "date": "2026-05-13",
+      "name": "Kirklees - Base",
+      "distance_km": 4.82,
+      "duration": "30:44",
+      "pace": "6:22 /km",
+      "avg_hr": 139
+    },
+    {
+      "date": "2026-05-12",
+      "name": "Kirklees - Base",
+      "distance_km": 4.47,
+      "duration": "30:10",
+      "pace": "6:45 /km",
+      "avg_hr": 153
+    },
+    {
+      "date": "2026-05-11",
+      "name": "Kirklees - Base",
+      "distance_km": 7.23,
+      "duration": "47:06",
+      "pace": "6:31 /km",
+      "avg_hr": 140
+    },
+    {
+      "date": "2026-05-09",
+      "name": "Kirklees - Long Run",
+      "distance_km": 10.7,
+      "duration": "1:10:06",
+      "pace": "6:33 /km",
+      "avg_hr": 142
+    },
+    {
+      "date": "2026-05-08",
+      "name": "Kirklees - Sprint",
+      "distance_km": 5.9,
+      "duration": "43:38",
+      "pace": "7:23 /km",
+      "avg_hr": 133
+    },
+    {
+      "date": "2026-05-06",
+      "name": "Kirklees - Base",
+      "distance_km": 5.17,
+      "duration": "33:09",
+      "pace": "6:25 /km",
+      "avg_hr": 139
+    },
+    {
+      "date": "2026-05-05",
+      "name": "Kirklees - Base",
+      "distance_km": 4.82,
+      "duration": "30:09",
+      "pace": "6:15 /km",
+      "avg_hr": 140
+    },
+    {
+      "date": "2026-05-04",
+      "name": "Kirklees - Base",
+      "distance_km": 4.83,
+      "duration": "30:14",
+      "pace": "6:15 /km",
+      "avg_hr": 139
+    },
+    {
+      "date": "2026-05-02",
+      "name": "Kirklees - Long Run",
+      "distance_km": 9.28,
+      "duration": "1:00:08",
+      "pace": "6:29 /km",
+      "avg_hr": 147
+    },
+    {
+      "date": "2026-05-01",
+      "name": "Kirklees - Base",
+      "distance_km": 4.65,
+      "duration": "30:15",
+      "pace": "6:30 /km",
+      "avg_hr": 145
+    },
+    {
+      "date": "2026-04-30",
+      "name": "Kirklees - Base",
+      "distance_km": 6.96,
+      "duration": "45:19",
+      "pace": "6:30 /km",
+      "avg_hr": 143
+    },
+    {
+      "date": "2026-04-28",
+      "name": "Kirklees - Base",
+      "distance_km": 4.38,
+      "duration": "30:20",
+      "pace": "6:55 /km",
+      "avg_hr": 139
+    },
+    {
+      "date": "2026-04-27",
+      "name": "Kirklees Running",
+      "distance_km": 5.03,
+      "duration": "27:54",
+      "pace": "5:32 /km",
+      "avg_hr": 152
+    },
+    {
+      "date": "2026-04-23",
+      "name": "Kirklees Running",
+      "distance_km": 5.1,
+      "duration": "29:00",
+      "pace": "5:41 /km",
+      "avg_hr": 154
+    }
+  ],
+  "updated": "2026-06-07T14:35:28Z"
 }
