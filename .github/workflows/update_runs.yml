@@ -2,8 +2,8 @@ name: Update run data
 
 on:
   schedule:
-    # Runs every day at 09:30 UTC (adjust to suit your timezone)
-    - cron: "30 9 * * *"
+    # Runs every day at 09:35 UTC (adjust to suit your timezone)
+    - cron: "35 9 * * *"
   workflow_dispatch: # lets you trigger it manually from GitHub
 
 jobs:
