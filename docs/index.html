@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Runs</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f5f5;
+      --card: #ffffff;
+      --accent: #007aff;
+      --text: #1a1a1a;
+      --muted: #666;
+      --border: #e0e0e0;
+      --hr-color: #e74c3c;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--accent);
+      color: #fff;
+      padding: 1.25rem 1rem 1rem;
+      text-align: center;
+    }
+    header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; }
+    header p  { font-size: 0.85rem; opacity: 0.85; margin-top: 0.2rem; }
+
+    .summary {
+      display: flex;
+      gap: 0.75rem;
+      padding: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.75rem 1.25rem;
+      text-align: center;
+      flex: 1 1 120px;
+      max-width: 160px;
+    }
+    .stat-card .value { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+    .stat-card .label { font-size: 0.75rem; color: var(--muted); margin-top: 0.15rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .run-list {
+      padding: 0 1rem 2rem;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .run-list h2 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .run-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      margin-bottom: 0.65rem;
+    }
+    .run-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+    .run-date   { font-size: 0.8rem; color: var(--muted); }
+    .run-name   { font-size: 0.95rem; font-weight: 600; }
+    .run-stats  { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .pill {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: var(--bg);
+      border-radius: 20px;
+      padding: 0.25rem 0.65rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+    .pill.hr { color: var(--hr-color); }
+    .pill svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+    .empty, .error {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+    }
+    .error { color: #c0392b; }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    @media (min-width: 480px) {
+      header h1 { font-size: 1.8rem; }
+      .run-list  { padding: 0 1.5rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>My Runs</h1>
+  <p id="updated-label">Loading…</p>
+</header>
+
+<div class="summary" id="summary"></div>
+
+<div class="run-list">
+  <h2>Recent runs</h2>
+  <div id="runs"></div>
+</div>
+
+<footer>Data from Garmin Connect &bull; updates daily</footer>
+
+<script>
+  // Icons (inline SVG paths)
+  const icons = {
+    distance: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6l9-3 9 3M3 18l9 3 9-3"/></svg>`,
+    pace:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+    duration: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>`,
+    heart:    `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21C12 21 3 13.5 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.5-9 13-9 13z"/></svg>`,
+  };
+
+  function formatDate(iso) {
+    if (!iso) return "";
+    const d = new Date(iso + "T00:00:00");
+    return d.toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+  }
+
+  function pill(icon, text, extraClass = "") {
+    return `<span class="pill ${extraClass}">${icons[icon]}${text}</span>`;
+  }
+
+  fetch("data.json")
+    .then(r => { if (!r.ok) throw new Error("not found"); return r.json(); })
+    .then(data => {
+      const runs = data.runs || [];
+
+      // Updated timestamp
+      if (data.updated) {
+        const d = new Date(data.updated);
+        document.getElementById("updated-label").textContent =
+          "Updated " + d.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+      } else {
+        document.getElementById("updated-label").textContent = "";
+      }
+
+      // Summary stats
+      const totalRuns = runs.length;
+      const totalKm   = runs.reduce((s, r) => s + (r.distance_km || 0), 0);
+      const avgHRRuns = runs.filter(r => r.avg_hr);
+      const avgHR     = avgHRRuns.length
+        ? Math.round(avgHRRuns.reduce((s, r) => s + r.avg_hr, 0) / avgHRRuns.length)
+        : null;
+
+      document.getElementById("summary").innerHTML = `
+        <div class="stat-card"><div class="value">${totalRuns}</div><div class="label">Runs shown</div></div>
+        <div class="stat-card"><div class="value">${totalKm.toFixed(1)}</div><div class="label">Total km</div></div>
+        ${avgHR ? `<div class="stat-card"><div class="value">${avgHR}</div><div class="label">Avg heart rate</div></div>` : ""}
+      `;
+
+      // Run cards
+      if (runs.length === 0) {
+        document.getElementById("runs").innerHTML = `<div class="empty">No runs found yet.</div>`;
+        return;
+      }
+
+      document.getElementById("runs").innerHTML = runs.map(r => `
+        <div class="run-card">
+          <div class="run-header">
+            <span class="run-name">${r.name}</span>
+            <span class="run-date">${formatDate(r.date)}</span>
+          </div>
+          <div class="run-stats">
+            ${pill("distance", `${r.distance_km} km`)}
+            ${pill("duration", r.duration)}
+            ${pill("pace", r.pace)}
+            ${r.avg_hr ? pill("heart", `${r.avg_hr} bpm`, "hr") : ""}
+          </div>
+        </div>
+      `).join("");
+    })
+    .catch(() => {
+      document.getElementById("updated-label").textContent = "";
+      document.getElementById("runs").innerHTML =
+        `<div class="error">Could not load run data. Make sure the GitHub Action has run at least once.</div>`;
+    });
+</script>
+</body>
+</html>
