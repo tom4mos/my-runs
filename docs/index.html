@@ -166,7 +166,7 @@
   <div id="runs"></div>
 </div>
 
-<footer>Data from Garmin Connect &bull; updates daily</footer>
+<footer>Data from Garmin Connect &bull; updates daily at 09:35 UTC</footer>
 
 <script>
   // Icons (inline SVG paths)
@@ -209,15 +209,16 @@
       // Summary stats
       const totalRuns = runs.length;
       const totalKm   = runs.reduce((s, r) => s + (r.distance_km || 0), 0);
-      const avgHRRuns = runs.filter(r => r.avg_hr);
-      const avgHR     = avgHRRuns.length
-        ? Math.round(avgHRRuns.reduce((s, r) => s + r.avg_hr, 0) / avgHRRuns.length)
-        : null;
+      const parseDur  = d => { if (!d) return 0; const p = d.split(":").map(Number); return p.length === 3 ? p[0]*3600+p[1]*60+p[2] : p[0]*60+p[1]; };
+      const totalSecs = runs.reduce((s, r) => s + parseDur(r.duration), 0);
+      const totalH    = Math.floor(totalSecs / 3600);
+      const totalM    = Math.floor((totalSecs % 3600) / 60);
+      const totalTime = totalH > 0 ? `${totalH}h ${totalM}m` : `${totalM}m`;
 
       document.getElementById("summary").innerHTML = `
         <div class="stat-card"><div class="value">${totalRuns}</div><div class="label">Runs shown</div></div>
         <div class="stat-card"><div class="value">${totalKm.toFixed(1)}</div><div class="label">Total km</div></div>
-        ${avgHR ? `<div class="stat-card"><div class="value">${avgHR}</div><div class="label">Avg heart rate</div></div>` : ""}
+        <div class="stat-card"><div class="value">${totalTime}</div><div class="label">Total time</div></div>
       `;
 
       // Run cards
