@@ -4,8 +4,8 @@ A lightweight static website that pulls Garmin Connect run data and displays it 
 
 ## What this project does
 
-- `fetch_runs.py` logs into Garmin Connect and saves up to 30 recent runs to `docs/data.json`
-- `docs/index.html` reads that JSON and displays run cards (distance, pace, duration, heart rate, elevation)
+- `fetch_runs.py` logs into Garmin Connect and saves up to 30 recent runs plus personal bests to `docs/data.json`
+- `docs/index.html` reads that JSON and displays personal bests, summary stats, and run cards
 - A GitHub Action (`.github/workflows/update_runs.yml`) runs the script every day at 09:35 UTC and commits the updated data
 - The site is hosted on GitHub Pages serving from the `docs/` folder
 
@@ -27,25 +27,34 @@ GitHub Pages updates within about a minute.
 
 ## Data pipeline — fetch_runs.py
 
-For each activity the script makes two Garmin API calls:
-1. `get_activities(0, 50)` — bulk summary; provides distance, duration, pace, avg HR, elevation gain/loss
-2. `get_activity_details(activity_id)` — per-activity detail; provides the elevation time-series (downsampled to ~50 points and stored as `elevation_profile`)
+The script makes two Garmin API calls:
+1. `get_activities(0, 50)` — bulk summary; provides distance, duration, pace, avg HR, elevation gain/loss for up to 50 activities (filtered to 30 runs)
+2. `get_personal_record()` — returns all-time personal records; the script extracts 5K (typeId 3), 10K (typeId 4), and Longest Run (typeId 7)
 
-A 0.3 s sleep between detail calls avoids Garmin rate-limiting. Treadmill runs or activities where the detail call fails will have `elevation_profile: null`.
+Known typeId sequence: 2=1 mile, 3=5K, 4=10K, 5=half marathon, 6=marathon, 7=longest run. For time-based records (5K, 10K) the value is in seconds; for Longest Run it is in metres.
 
-### data.json shape per run
+### data.json shape
 
 ```json
 {
-  "date": "YYYY-MM-DD",
-  "name": "Morning Run",
-  "distance_km": 5.2,
-  "duration": "32:15",
-  "pace": "6:12 /km",
-  "avg_hr": 145,
-  "elevation_gain": 45,
-  "elevation_loss": 43,
-  "elevation_profile": [120.0, 122.5, ...]
+  "runs": [
+    {
+      "date": "YYYY-MM-DD",
+      "name": "Morning Run",
+      "distance_km": 5.2,
+      "duration": "32:15",
+      "pace": "6:12 /km",
+      "avg_hr": 145,
+      "elevation_gain": 45,
+      "elevation_loss": 43
+    }
+  ],
+  "personal_bests": {
+    "5k":          { "time": "27:30", "pace": "5:30 /km", "date": "YYYY-MM-DD" },
+    "10k":         { "time": "57:00", "pace": "5:42 /km", "date": "YYYY-MM-DD" },
+    "longest_run": { "distance_km": 15.2, "time": "1:32:00", "pace": "6:03 /km", "date": "YYYY-MM-DD" }
+  },
+  "updated": "YYYY-MM-DDTHH:MM:SSZ"
 }
 ```
 
@@ -54,7 +63,8 @@ A 0.3 s sleep between detail calls avoids Garmin rate-limiting. Treadmill runs o
 - Font: Inter (Google Fonts), falling back to Helvetica Neue / Helvetica
 - Colour scheme: white and grey, near-black (#111) header and accents; all colours are CSS variables in `:root`
 - Mobile-first, minimal layout
-- Summary bar at the top shows: runs shown · total km · total time
-- Runs are grouped by month under a subtle uppercase month header
-- Each run is displayed as a row: a small desk-calendar widget on the left (dark strip with abbreviated day name, large day number below) beside a full-width card showing the run name and stats pills
-- Cards with elevation data show a chevron (▾) button; clicking it expands an inline SVG area chart of the elevation profile plus ↑/↓ metre totals
+- Page sections from top to bottom:
+  1. **Personal Bests** — cards for 5K, 10K, and Longest Run (hidden if no data)
+  2. **Last 30 Runs** — total km and total time summary cards
+  3. **Run list** — runs grouped by month under an uppercase month header
+- Each run is a row: a small desk-calendar widget on the left beside a card showing the run name, then two rows of stat pills — row 1: distance, duration, pace, heart rate; row 2: elevation gain (↑) and elevation loss (↓)
