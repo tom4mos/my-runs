@@ -1,6 +1,14 @@
 {
   "runs": [
     {
+      "date": "2026-06-08",
+      "name": "Kirklees - Base",
+      "distance_km": 10.42,
+      "duration": "1:08:04",
+      "pace": "6:31 /km",
+      "avg_hr": 140
+    },
+    {
       "date": "2026-06-05",
       "name": "Kirklees - Anaerobic",
       "distance_km": 8.13,
@@ -231,15 +239,7 @@
       "duration": "27:54",
       "pace": "5:32 /km",
       "avg_hr": 152
-    },
-    {
-      "date": "2026-04-23",
-      "name": "Kirklees Running",
-      "distance_km": 5.1,
-      "duration": "29:00",
-      "pace": "5:41 /km",
-      "avg_hr": 154
     }
   ],
-  "updated": "2026-06-07T14:35:28Z"
+  "updated": "2026-06-08T11:52:02Z"
 }
