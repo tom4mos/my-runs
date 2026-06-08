@@ -61,28 +61,63 @@
       max-width: 640px;
       margin: 0 auto;
     }
-    .run-list h2 {
-      font-size: 0.8rem;
+
+    .month-group { margin-bottom: 1.75rem; }
+    .month-header {
+      font-size: 0.72rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       color: var(--muted);
-      margin-bottom: 0.5rem;
+      font-weight: 600;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.75rem;
+    }
+
+    .run-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      margin-bottom: 0.65rem;
+    }
+    .run-cal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      min-width: 46px;
+      flex-shrink: 0;
+    }
+    .cal-day {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      width: 100%;
+      text-align: center;
+      padding: 0.22rem 0;
+    }
+    .cal-num {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+      padding: 0.35rem 0.4rem;
     }
 
     .run-card {
+      flex: 1;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 0.9rem 1rem;
-      margin-bottom: 0.65rem;
     }
-    .run-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 0.5rem;
-    }
-    .run-date   { font-size: 0.8rem; color: var(--muted); }
+    .run-header { margin-bottom: 0.5rem; }
     .run-name   { font-size: 0.95rem; font-weight: 600; }
     .run-stats  { display: flex; gap: 0.5rem; flex-wrap: wrap; }
     .pill {
@@ -128,7 +163,6 @@
 <div class="summary" id="summary"></div>
 
 <div class="run-list">
-  <h2>Recent runs</h2>
   <div id="runs"></div>
 </div>
 
@@ -143,10 +177,15 @@
     heart:    `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21C12 21 3 13.5 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.5-9 13-9 13z"/></svg>`,
   };
 
-  function formatDate(iso) {
-    if (!iso) return "";
+  function getDateParts(iso) {
+    if (!iso) return { dayName: "", dayNum: "", monthYear: "", monthKey: "" };
     const d = new Date(iso + "T00:00:00");
-    return d.toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+    return {
+      dayName: d.toLocaleDateString("en-GB", { weekday: "short" }).toUpperCase(),
+      dayNum:  d.getDate(),
+      monthYear: d.toLocaleDateString("en-GB", { month: "long", year: "numeric" }),
+      monthKey:  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`,
+    };
   }
 
   function pill(icon, text, extraClass = "") {
@@ -187,20 +226,41 @@
         return;
       }
 
-      document.getElementById("runs").innerHTML = runs.map(r => `
-        <div class="run-card">
-          <div class="run-header">
-            <span class="run-name">${r.name}</span>
-            <span class="run-date">${formatDate(r.date)}</span>
-          </div>
-          <div class="run-stats">
-            ${pill("distance", `${r.distance_km} km`)}
-            ${pill("duration", r.duration)}
-            ${pill("pace", r.pace)}
-            ${r.avg_hr ? pill("heart", `${r.avg_hr} bpm`, "hr") : ""}
-          </div>
-        </div>
-      `).join("");
+      const grouped = {};
+      runs.forEach(r => {
+        const { monthKey, monthYear } = getDateParts(r.date);
+        if (!grouped[monthKey]) grouped[monthKey] = { label: monthYear, runs: [] };
+        grouped[monthKey].runs.push(r);
+      });
+
+      let html = "";
+      Object.keys(grouped).sort((a, b) => b.localeCompare(a)).forEach(key => {
+        const { label, runs: monthRuns } = grouped[key];
+        html += `<div class="month-group"><h2 class="month-header">${label}</h2>`;
+        monthRuns.forEach(r => {
+          const { dayName, dayNum } = getDateParts(r.date);
+          html += `
+            <div class="run-row">
+              <div class="run-cal">
+                <span class="cal-day">${dayName}</span>
+                <span class="cal-num">${dayNum}</span>
+              </div>
+              <div class="run-card">
+                <div class="run-header">
+                  <span class="run-name">${r.name}</span>
+                </div>
+                <div class="run-stats">
+                  ${pill("distance", `${r.distance_km} km`)}
+                  ${pill("duration", r.duration)}
+                  ${pill("pace", r.pace)}
+                  ${r.avg_hr ? pill("heart", `${r.avg_hr} bpm`, "hr") : ""}
+                </div>
+              </div>
+            </div>`;
+        });
+        html += `</div>`;
+      });
+      document.getElementById("runs").innerHTML = html;
     })
     .catch(() => {
       document.getElementById("updated-label").textContent = "";
