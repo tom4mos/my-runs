@@ -30,3 +30,5 @@ GitHub Pages updates within about a minute.
 - Font: Inter (Google Fonts), falling back to Helvetica Neue / Helvetica
 - Colour scheme: white and grey, near-black (#111) header and accents
 - Mobile-first, minimal layout
+- Runs are grouped by month under a subtle uppercase month header
+- Each run is displayed as a row: a small desk-calendar widget on the left (dark strip with abbreviated day name, large day number below) beside a full-width card showing the run name and stats pills
