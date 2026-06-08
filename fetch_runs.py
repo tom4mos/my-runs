@@ -30,8 +30,9 @@ def fetch_personal_bests(client, act_lookup):
         records = client.get_personal_record()
         print("DEBUG personal_record raw:", json.dumps(records, default=str, indent=2))
 
-        type_map = {2: "5k", 3: "10k", 6: "longest_run"}
-        distances = {2: 5000, 3: 10000}
+        # typeId sequence: 2=1mi, 3=5K, 4=10K, 5=half, 6=marathon, 7=longest run
+        type_map = {3: "5k", 4: "10k", 7: "longest_run"}
+        distances = {3: 5000, 4: 10000}
 
         for rec in records or []:
             type_id = rec.get("typeId")
@@ -46,14 +47,14 @@ def fetch_personal_bests(client, act_lookup):
             else:
                 date_str = ""
 
-            if type_id == 2 or type_id == 3:
+            if type_id == 3 or type_id == 4:
                 dist_m = distances[type_id]
                 pbs[type_map[type_id]] = {
                     "time": format_duration(value),
                     "pace": format_pace(dist_m, value),
                     "date": date_str,
                 }
-            elif type_id == 6:
+            elif type_id == 7:
                 dist_m = value
                 act = act_lookup.get(act_id, {})
                 dur_s = float(act.get("duration") or 0)
