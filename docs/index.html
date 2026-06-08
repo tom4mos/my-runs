@@ -119,21 +119,6 @@
     }
     .run-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
     .run-name   { font-size: 0.95rem; font-weight: 600; }
-    .expand-btn {
-      background: none; border: none; cursor: pointer; padding: 0 0 0 0.5rem;
-      color: var(--muted); display: flex; align-items: center; flex-shrink: 0;
-    }
-    .expand-btn svg { width: 16px; height: 16px; transition: transform 0.2s; }
-    .run-card.open .expand-btn svg { transform: rotate(180deg); }
-    .run-expand {
-      display: none;
-      margin-top: 0.75rem;
-      padding-top: 0.75rem;
-      border-top: 1px solid var(--border);
-    }
-    .run-card.open .run-expand { display: block; }
-    .elev-chart { width: 100%; height: 60px; display: block; overflow: visible; border-radius: 4px; }
-    .elev-meta  { display: flex; gap: 1rem; margin-top: 0.4rem; font-size: 0.75rem; color: var(--muted); }
     .run-stats  { display: flex; gap: 0.5rem; flex-wrap: wrap; }
     .pill {
       display: flex;
@@ -189,7 +174,9 @@
     distance: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6l9-3 9 3M3 18l9 3 9-3"/></svg>`,
     pace:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
     duration: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>`,
-    heart:    `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21C12 21 3 13.5 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.5-9 13-9 13z"/></svg>`,
+    heart:     `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21C12 21 3 13.5 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.5-9 13-9 13z"/></svg>`,
+    elev_up:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
+    elev_down: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>`,
   };
 
   function getDateParts(iso) {
@@ -205,23 +192,6 @@
 
   function pill(icon, text, extraClass = "") {
     return `<span class="pill ${extraClass}">${icons[icon]}${text}</span>`;
-  }
-
-  function makeElevChart(profile) {
-    const W = 100, H = 60, pad = 4;
-    const min = Math.min(...profile), max = Math.max(...profile);
-    const range = max - min || 1;
-    const pts = profile.map((v, i) => {
-      const x = (i / (profile.length - 1)) * W;
-      const y = H - pad - ((v - min) / range) * (H - pad * 2);
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    });
-    const line = `M ${pts.join(" L ")}`;
-    const area = `${line} L ${W},${H} L 0,${H} Z`;
-    return `<svg class="elev-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
-      <path d="${area}" fill="var(--accent)" opacity="0.1"/>
-      <path d="${line}" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
-    </svg>`;
   }
 
   fetch("data.json")
@@ -272,7 +242,6 @@
         html += `<div class="month-group"><h2 class="month-header">${label}</h2>`;
         monthRuns.forEach(r => {
           const { dayName, dayNum } = getDateParts(r.date);
-          const hasElev = r.elevation_profile && r.elevation_profile.length > 1;
           html += `
             <div class="run-row">
               <div class="run-cal">
@@ -282,15 +251,15 @@
               <div class="run-card">
                 <div class="run-header">
                   <span class="run-name">${r.name}</span>
-                  ${hasElev ? `<button class="expand-btn" aria-label="Show elevation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>` : ""}
                 </div>
                 <div class="run-stats">
                   ${pill("distance", `${r.distance_km} km`)}
                   ${pill("duration", r.duration)}
                   ${pill("pace", r.pace)}
                   ${r.avg_hr ? pill("heart", `${r.avg_hr} bpm`, "hr") : ""}
+                  ${r.elevation_gain != null ? pill("elev_up", `${r.elevation_gain}m`) : ""}
+                  ${r.elevation_loss != null ? pill("elev_down", `${r.elevation_loss}m`) : ""}
                 </div>
-                ${hasElev ? `<div class="run-expand">${makeElevChart(r.elevation_profile)}<div class="elev-meta"><span>↑ ${r.elevation_gain}m</span><span>↓ ${r.elevation_loss}m</span></div></div>` : ""}
               </div>
             </div>`;
         });
@@ -298,10 +267,6 @@
       });
       document.getElementById("runs").innerHTML = html;
 
-      document.getElementById("runs").addEventListener("click", e => {
-        const btn = e.target.closest(".expand-btn");
-        if (btn) btn.closest(".run-card").classList.toggle("open");
-      });
     })
     .catch(() => {
       document.getElementById("updated-label").textContent = "";
