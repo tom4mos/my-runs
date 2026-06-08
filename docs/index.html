@@ -188,7 +188,7 @@
 </div>
 
 <div class="summary-section">
-  <h2 class="month-header">Most Recent Stats</h2>
+  <h2 class="month-header">Last 30 Runs</h2>
   <div class="summary" id="summary"></div>
 </div>
 
@@ -279,7 +279,6 @@
       const totalTime = totalH > 0 ? `${totalH}h ${totalM}m` : `${totalM}m`;
 
       document.getElementById("summary").innerHTML = `
-        <div class="stat-card"><div class="value">${totalRuns}</div><div class="label">Runs shown</div></div>
         <div class="stat-card"><div class="value">${totalKm.toFixed(1)}</div><div class="label">Total km</div></div>
         <div class="stat-card"><div class="value">${totalTime}</div><div class="label">Total time</div></div>
       `;
