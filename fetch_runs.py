@@ -24,6 +24,43 @@ def format_pace(meters, seconds):
     return f"{mins}:{secs:02d} /km"
 
 
+def fetch_personal_bests(client, act_lookup):
+    pbs = {}
+    try:
+        records = client.get_personal_record()
+        print("DEBUG personal_record raw:", json.dumps(records, default=str, indent=2))
+
+        type_map = {2: "5k", 3: "10k", 6: "longest_run"}
+        distances = {2: 5000, 3: 10000}
+
+        for rec in records or []:
+            type_id = rec.get("typeId")
+            value = float(rec.get("value") or 0)
+            act_id = rec.get("activityId")
+            date_str = (rec.get("prStartTimeLocal") or rec.get("prStartTimeGmt") or "")[:10]
+
+            if type_id == 2 or type_id == 3:
+                dist_m = distances[type_id]
+                pbs[type_map[type_id]] = {
+                    "time": format_duration(value),
+                    "pace": format_pace(dist_m, value),
+                    "date": date_str,
+                }
+            elif type_id == 6:
+                dist_m = value
+                act = act_lookup.get(act_id, {})
+                dur_s = float(act.get("duration") or 0)
+                pbs["longest_run"] = {
+                    "distance_km": round(dist_m / 1000, 2),
+                    "time": format_duration(dur_s) if dur_s else None,
+                    "pace": format_pace(dist_m, dur_s) if dur_s else None,
+                    "date": date_str,
+                }
+    except Exception as e:
+        print(f"Could not fetch personal records: {e}")
+    return pbs
+
+
 def main():
     email = os.environ["GARMIN_EMAIL"]
     password = os.environ["GARMIN_PASSWORD"]
@@ -32,6 +69,9 @@ def main():
     client.login()
 
     activities = client.get_activities(0, 50)
+
+    act_lookup = {a.get("activityId"): a for a in activities if a.get("activityId")}
+    personal_bests = fetch_personal_bests(client, act_lookup)
 
     running_types = {"running", "trail_running", "treadmill_running", "track_running"}
 
@@ -87,6 +127,7 @@ def main():
     os.makedirs("docs", exist_ok=True)
     payload = {
         "runs": runs,
+        "personal_bests": personal_bests,
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
     with open("docs/data.json", "w", encoding="utf-8") as f:

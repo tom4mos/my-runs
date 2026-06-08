@@ -42,6 +42,23 @@
       margin: 0 auto;
       padding: 0.75rem 1rem 0;
     }
+    .pb-grid {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      flex-wrap: wrap;
+    }
+    .pb-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      flex: 1 1 140px;
+    }
+    .pb-card .pb-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; margin-bottom: 0.35rem; }
+    .pb-card .pb-value { font-size: 1.25rem; font-weight: 700; color: var(--accent); }
+    .pb-card .pb-pace  { font-size: 0.82rem; color: var(--muted); margin-top: 0.1rem; }
+    .pb-card .pb-date  { font-size: 0.75rem; color: var(--muted); margin-top: 0.35rem; }
     .summary {
       display: flex;
       gap: 0.75rem;
@@ -165,6 +182,11 @@
   <p id="updated-label">Loading…</p>
 </header>
 
+<div class="summary-section" id="pb-section" style="display:none">
+  <h2 class="month-header">Personal Bests</h2>
+  <div class="pb-grid" id="personal-bests"></div>
+</div>
+
 <div class="summary-section">
   <h2 class="month-header">Most Recent Stats</h2>
   <div class="summary" id="summary"></div>
@@ -202,10 +224,41 @@
     return `<span class="pill ${extraClass}">${icons[icon]}${text}</span>`;
   }
 
+  function formatPbDate(iso) {
+    if (!iso) return "";
+    const d = new Date(iso + "T00:00:00");
+    return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  }
+
+  function renderPersonalBests(pbs) {
+    if (!pbs) return;
+    const cards = ["5k", "10k", "longest_run"];
+    const labels = { "5k": "5K", "10k": "10K", "longest_run": "Longest Run" };
+    const html = cards
+      .filter(k => pbs[k])
+      .map(k => {
+        const p = pbs[k];
+        const value = k === "longest_run" ? `${p.distance_km} km` : p.time;
+        return `<div class="pb-card">
+          <div class="pb-label">${labels[k]}</div>
+          <div class="pb-value">${value || "—"}</div>
+          ${p.pace ? `<div class="pb-pace">${p.pace}</div>` : ""}
+          ${p.date ? `<div class="pb-date">${formatPbDate(p.date)}</div>` : ""}
+        </div>`;
+      })
+      .join("");
+    if (html) {
+      document.getElementById("personal-bests").innerHTML = html;
+      document.getElementById("pb-section").style.display = "";
+    }
+  }
+
   fetch("data.json")
     .then(r => { if (!r.ok) throw new Error("not found"); return r.json(); })
     .then(data => {
       const runs = data.runs || [];
+
+      renderPersonalBests(data.personal_bests);
 
       // Updated timestamp
       if (data.updated) {
