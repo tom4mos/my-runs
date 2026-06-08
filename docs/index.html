@@ -257,9 +257,11 @@
                   ${pill("duration", r.duration)}
                   ${pill("pace", r.pace)}
                   ${r.avg_hr ? pill("heart", `${r.avg_hr} bpm`, "hr") : ""}
+                </div>
+                ${(r.elevation_gain != null || r.elevation_loss != null) ? `<div class="run-stats" style="margin-top:0.35rem">
                   ${r.elevation_gain != null ? pill("elev_up", `${r.elevation_gain}m`) : ""}
                   ${r.elevation_loss != null ? pill("elev_down", `${r.elevation_loss}m`) : ""}
-                </div>
+                </div>` : ""}
               </div>
             </div>`;
         });
