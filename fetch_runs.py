@@ -1,6 +1,5 @@
 import json
 import os
-import time
 from datetime import datetime, timezone
 from garminconnect import Garmin
 
@@ -93,7 +92,6 @@ def main():
         duration_s = activity.get("duration") or 0
         avg_hr = activity.get("averageHR")
 
-        activity_id = activity.get("activityId")
         run = {
             "date": (activity.get("startTimeLocal") or "")[:10],
             "name": activity.get("activityName") or "Run",
@@ -105,28 +103,6 @@ def main():
             "elevation_loss": round(activity.get("elevationLoss") or 0),
         }
 
-        try:
-            details = client.get_activity_details(activity_id, maxchart=2000)
-            descriptors = details.get("metricDescriptors", [])
-            elev_index = next(
-                (d["metricsIndex"] for d in descriptors if d.get("key") == "directElevation"),
-                None,
-            )
-            if elev_index is not None:
-                samples = details.get("activityDetailMetrics", [])
-                raw = [
-                    s["metrics"][elev_index]
-                    for s in samples
-                    if s.get("metrics") and s["metrics"][elev_index] is not None
-                ]
-                step = max(1, len(raw) // 50)
-                run["elevation_profile"] = [round(raw[i], 1) for i in range(0, len(raw), step)][:50]
-            else:
-                run["elevation_profile"] = None
-        except Exception:
-            run["elevation_profile"] = None
-
-        time.sleep(0.3)
         runs.append(run)
 
         if len(runs) >= 30:
