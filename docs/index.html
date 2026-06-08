@@ -37,10 +37,15 @@
     header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; }
     header p  { font-size: 0.85rem; opacity: 0.55; margin-top: 0.2rem; font-weight: 400; }
 
+    .summary-section {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0.75rem 1rem 0;
+    }
     .summary {
       display: flex;
       gap: 0.75rem;
-      padding: 1rem;
+      padding: 0.75rem 0;
       justify-content: center;
       flex-wrap: wrap;
     }
@@ -160,7 +165,10 @@
   <p id="updated-label">Loading…</p>
 </header>
 
-<div class="summary" id="summary"></div>
+<div class="summary-section">
+  <h2 class="month-header">Most Recent Stats</h2>
+  <div class="summary" id="summary"></div>
+</div>
 
 <div class="run-list">
   <div id="runs"></div>
