@@ -37,7 +37,14 @@ def fetch_personal_bests(client, act_lookup):
             type_id = rec.get("typeId")
             value = float(rec.get("value") or 0)
             act_id = rec.get("activityId")
-            date_str = (rec.get("prStartTimeLocal") or rec.get("prStartTimeGmt") or "")[:10]
+            raw_time = rec.get("prStartTimeLocal") or rec.get("prStartTimeGmt")
+            if isinstance(raw_time, (int, float)):
+                ts = raw_time / 1000 if raw_time > 1e12 else raw_time
+                date_str = datetime.fromtimestamp(ts, tz=timezone.utc).strftime("%Y-%m-%d")
+            elif isinstance(raw_time, str):
+                date_str = raw_time[:10]
+            else:
+                date_str = ""
 
             if type_id == 2 or type_id == 3:
                 dist_m = distances[type_id]
