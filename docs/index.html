@@ -170,6 +170,87 @@
       color: var(--muted);
     }
 
+    #sync-section {
+      text-align: center;
+      padding: 1.5rem 1rem 2rem;
+    }
+    #sync-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 0.55rem 1.4rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.2px;
+    }
+    #sync-btn:disabled { opacity: 0.5; cursor: default; }
+    #sync-status {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.6rem;
+      min-height: 1.2em;
+    }
+    #sync-status.error { color: #c0392b; }
+    #pat-form {
+      margin-top: 0.85rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+    #pat-form p { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.65rem; line-height: 1.5; }
+    #pat-input {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      margin-bottom: 0.65rem;
+      background: var(--bg);
+    }
+    #pat-input:focus { outline: 2px solid var(--accent); border-color: transparent; }
+    .pat-actions { display: flex; gap: 0.5rem; }
+    #pat-save {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.45rem 1rem;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #pat-cancel {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 1rem;
+      font-family: inherit;
+      font-size: 0.82rem;
+      cursor: pointer;
+      color: var(--muted);
+    }
+    #pat-forget {
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 0.75rem;
+      color: var(--muted);
+      cursor: pointer;
+      text-decoration: underline;
+      display: block;
+      margin: 0.5rem auto 0;
+    }
+
     @media (min-width: 480px) {
       header h1 { font-size: 1.8rem; }
       .run-list  { padding: 0 1.5rem 2rem; }
@@ -198,6 +279,20 @@
 </div>
 
 <footer>Data from Garmin Connect &bull; updates daily at 09:35 UTC</footer>
+
+<div id="sync-section">
+  <button id="sync-btn">&#8635; Sync now</button>
+  <p id="sync-status"></p>
+  <div id="pat-form" hidden>
+    <p>Enter a GitHub Personal Access Token with <strong>Actions: write</strong> permission for this repo. It will be saved in your browser only.</p>
+    <input id="pat-input" type="password" placeholder="github_pat_…" autocomplete="off" spellcheck="false" />
+    <div class="pat-actions">
+      <button id="pat-save">Save &amp; Sync</button>
+      <button id="pat-cancel">Cancel</button>
+    </div>
+  </div>
+  <button id="pat-forget" hidden>Forget saved token</button>
+</div>
 
 <script>
   // Icons (inline SVG paths)
@@ -336,6 +431,99 @@
       document.getElementById("runs").innerHTML =
         `<div class="error">Could not load run data. Make sure the GitHub Action has run at least once.</div>`;
     });
+
+  // — Sync button —
+  const REPO     = 'tom4mos/my-runs';
+  const WORKFLOW = 'update_runs.yml';
+  const PAT_KEY  = 'gh_sync_pat';
+
+  const syncBtn   = document.getElementById('sync-btn');
+  const syncStatus = document.getElementById('sync-status');
+  const patForm   = document.getElementById('pat-form');
+  const patInput  = document.getElementById('pat-input');
+  const patSave   = document.getElementById('pat-save');
+  const patCancel = document.getElementById('pat-cancel');
+  const patForget = document.getElementById('pat-forget');
+
+  if (localStorage.getItem(PAT_KEY)) patForget.hidden = false;
+
+  async function triggerWorkflow(token) {
+    syncBtn.disabled = true;
+    setStatus('Triggering update…', false);
+    try {
+      const res = await fetch(
+        `https://api.github.com/repos/${REPO}/actions/workflows/${WORKFLOW}/dispatches`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ref: 'main' }),
+        }
+      );
+      if (res.status === 204) {
+        setStatus('Update triggered! Data will refresh in about a minute.', false);
+        setTimeout(() => { setStatus('', false); syncBtn.disabled = false; }, 5000);
+      } else if (res.status === 401 || res.status === 403) {
+        localStorage.removeItem(PAT_KEY);
+        patForget.hidden = true;
+        setStatus('Auth failed — check your token.', true);
+        syncBtn.disabled = false;
+      } else {
+        setStatus(`Error ${res.status} — try again.`, true);
+        syncBtn.disabled = false;
+      }
+    } catch (e) {
+      setStatus('Network error — try again.', true);
+      syncBtn.disabled = false;
+    }
+  }
+
+  function setStatus(msg, isError) {
+    syncStatus.textContent = msg;
+    syncStatus.className = isError ? 'error' : '';
+  }
+
+  syncBtn.addEventListener('click', () => {
+    const token = localStorage.getItem(PAT_KEY);
+    if (token) {
+      triggerWorkflow(token);
+    } else {
+      syncBtn.style.display = 'none';
+      patForm.hidden = false;
+      patInput.focus();
+    }
+  });
+
+  patSave.addEventListener('click', () => {
+    const token = patInput.value.trim();
+    if (!token) { patInput.focus(); return; }
+    localStorage.setItem(PAT_KEY, token);
+    patInput.value = '';
+    patForm.hidden = true;
+    syncBtn.style.display = '';
+    patForget.hidden = false;
+    triggerWorkflow(token);
+  });
+
+  patInput.addEventListener('keydown', e => { if (e.key === 'Enter') patSave.click(); });
+
+  patCancel.addEventListener('click', () => {
+    patInput.value = '';
+    patForm.hidden = true;
+    syncBtn.style.display = '';
+    setStatus('', false);
+  });
+
+  patForget.addEventListener('click', () => {
+    localStorage.removeItem(PAT_KEY);
+    patForget.hidden = true;
+    setStatus('Token removed.', false);
+    setTimeout(() => setStatus('', false), 3000);
+  });
 </script>
 </body>
 </html>
