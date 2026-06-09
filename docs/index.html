@@ -278,7 +278,11 @@
   <div id="runs"></div>
 </div>
 
-<footer>Data from Garmin Connect &bull; updates daily at 09:35 UTC<br><span id="local-time"></span></footer>
+<footer>
+  <span style="display:block">Data from Garmin Connect</span>
+  <span style="display:block">Updates daily at 09:35 UTC (<span id="schedule-local"></span> local)</span>
+  <span style="display:block" id="local-time"></span>
+</footer>
 
 <div id="sync-section">
   <button id="sync-btn">&#8635; Sync now</button>
@@ -526,10 +530,16 @@
     setTimeout(() => setStatus('', false), 3000);
   });
 
-  // Live local clock in footer
+  // Local equivalent of the 09:35 UTC schedule time
+  const scheduleUtc = new Date();
+  scheduleUtc.setUTCHours(9, 35, 0, 0);
+  document.getElementById('schedule-local').textContent =
+    scheduleUtc.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false });
+
+  // Live local clock in footer (24-hour)
   function updateClock() {
     document.getElementById('local-time').textContent =
-      'Your local time: ' + new Date().toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' });
+      'Your local time: ' + new Date().toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short', hour12: false });
   }
   updateClock();
   setInterval(updateClock, 1000);
