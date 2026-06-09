@@ -365,7 +365,7 @@
         const d = new Date(data.updated);
         document.getElementById("updated-label").textContent =
           "Updated " + d.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" })
-          + " at " + d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+          + " at " + d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", hour12: false });
       } else {
         document.getElementById("updated-label").textContent = "";
       }
