@@ -63,8 +63,22 @@ Known typeId sequence: 2=1 mile, 3=5K, 4=10K, 5=half marathon, 6=marathon, 7=lon
 - Font: Inter (Google Fonts), falling back to Helvetica Neue / Helvetica
 - Colour scheme: white and grey, near-black (#111) header and accents; all colours are CSS variables in `:root`
 - Mobile-first, minimal layout
+- All times displayed in 24-hour format
 - Page sections from top to bottom:
-  1. **Personal Bests** — cards for 5K, 10K, and Longest Run (hidden if no data)
-  2. **Last 30 Runs** — total km and total time summary cards
-  3. **Run list** — runs grouped by month under an uppercase month header
+  1. **Header** — title plus "Updated DD Mon YYYY at HH:MM" timestamp (local timezone, 24h)
+  2. **Personal Bests** — cards for 5K, 10K, and Longest Run (hidden if no data)
+  3. **Last 30 Runs** — total km and total time summary cards
+  4. **Run list** — runs grouped by month under an uppercase month header
+  5. **Footer** — three lines: data source, daily schedule time in UTC and local equivalent, live local clock (ticks every second, 24h)
+  6. **Sync button** — below the footer; triggers the `update_runs.yml` workflow via the GitHub API
 - Each run is a row: a small desk-calendar widget on the left beside a card showing the run name, then two rows of stat pills — row 1: distance, duration, pace, heart rate; row 2: elevation gain (↑) and elevation loss (↓)
+
+## Manual sync button
+
+The "↻ Sync now" button below the footer calls the GitHub Actions `workflow_dispatch` API to trigger `update_runs.yml` on demand.
+
+- Requires a GitHub Personal Access Token (PAT) with **Actions: write** permission scoped to this repo
+- The PAT is stored in the browser's `localStorage` under the key `gh_sync_pat` — it is never in the source code
+- First click with no stored token shows an inline form to enter and save the PAT
+- A "Forget saved token" link appears when a token is stored
+- API target: `POST https://api.github.com/repos/tom4mos/my-runs/actions/workflows/update_runs.yml/dispatches`
