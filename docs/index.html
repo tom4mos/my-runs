@@ -278,7 +278,7 @@
   <div id="runs"></div>
 </div>
 
-<footer>Data from Garmin Connect &bull; updates daily at 09:35 UTC</footer>
+<footer>Data from Garmin Connect &bull; updates daily at 09:35 UTC<br><span id="local-time"></span></footer>
 
 <div id="sync-section">
   <button id="sync-btn">&#8635; Sync now</button>
@@ -525,6 +525,14 @@
     setStatus('Token removed.', false);
     setTimeout(() => setStatus('', false), 3000);
   });
+
+  // Live local clock in footer
+  function updateClock() {
+    document.getElementById('local-time').textContent =
+      'Your local time: ' + new Date().toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' });
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
 </script>
 </body>
 </html>
