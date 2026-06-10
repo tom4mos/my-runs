@@ -280,7 +280,7 @@
 
 <footer>
   <span style="display:block">Data from Garmin Connect</span>
-  <span style="display:block">Updates daily at 09:35 UTC (<span id="schedule-local"></span> local)</span>
+  <span style="display:block">Updates daily at 11:00 UTC (<span id="schedule-local"></span> local)</span>
   <span style="display:block" id="local-time"></span>
 </footer>
 
@@ -530,9 +530,9 @@
     setTimeout(() => setStatus('', false), 3000);
   });
 
-  // Local equivalent of the 09:35 UTC schedule time
+  // Local equivalent of the 11:00 UTC schedule time
   const scheduleUtc = new Date();
-  scheduleUtc.setUTCHours(9, 35, 0, 0);
+  scheduleUtc.setUTCHours(11, 0, 0, 0);
   document.getElementById('schedule-local').textContent =
     scheduleUtc.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false });
 
