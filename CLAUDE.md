@@ -6,7 +6,7 @@ A lightweight static website that pulls Garmin Connect run data and displays it 
 
 - `fetch_runs.py` logs into Garmin Connect and saves up to 30 recent runs plus personal bests to `docs/data.json`
 - `docs/index.html` reads that JSON and displays personal bests, summary stats, and run cards
-- A GitHub Action (`.github/workflows/update_runs.yml`) runs the script every day at 09:35 UTC and commits the updated data
+- A GitHub Action (`.github/workflows/update_runs.yml`) runs the script every day at 11:00 UTC and commits the updated data
 - The site is hosted on GitHub Pages serving from the `docs/` folder
 
 ## Garmin credentials
