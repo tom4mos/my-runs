@@ -299,6 +299,306 @@
       "avg_hr": 139,
       "elevation_gain": 23,
       "elevation_loss": 75
+    },
+    {
+      "date": "2026-05-02",
+      "name": "Kirklees - Long Run",
+      "distance_km": 9.28,
+      "duration": "1:00:08",
+      "pace": "6:29 /km",
+      "avg_hr": 147,
+      "elevation_gain": 110,
+      "elevation_loss": 163
+    },
+    {
+      "date": "2026-05-01",
+      "name": "Kirklees - Base",
+      "distance_km": 4.65,
+      "duration": "30:15",
+      "pace": "6:30 /km",
+      "avg_hr": 145,
+      "elevation_gain": 58,
+      "elevation_loss": 87
+    },
+    {
+      "date": "2026-04-30",
+      "name": "Kirklees - Base",
+      "distance_km": 6.96,
+      "duration": "45:19",
+      "pace": "6:30 /km",
+      "avg_hr": 143,
+      "elevation_gain": 76,
+      "elevation_loss": 101
+    },
+    {
+      "date": "2026-04-28",
+      "name": "Kirklees - Base",
+      "distance_km": 4.38,
+      "duration": "30:20",
+      "pace": "6:55 /km",
+      "avg_hr": 139,
+      "elevation_gain": 66,
+      "elevation_loss": 93
+    },
+    {
+      "date": "2026-04-27",
+      "name": "Kirklees Running",
+      "distance_km": 5.03,
+      "duration": "27:54",
+      "pace": "5:32 /km",
+      "avg_hr": 152,
+      "elevation_gain": 18,
+      "elevation_loss": 80
+    },
+    {
+      "date": "2026-04-23",
+      "name": "Kirklees Running",
+      "distance_km": 5.1,
+      "duration": "29:00",
+      "pace": "5:41 /km",
+      "avg_hr": 154,
+      "elevation_gain": 18,
+      "elevation_loss": 81
+    },
+    {
+      "date": "2026-04-21",
+      "name": "Kirklees Running",
+      "distance_km": 5.03,
+      "duration": "28:29",
+      "pace": "5:39 /km",
+      "avg_hr": 151,
+      "elevation_gain": 18,
+      "elevation_loss": 82
+    },
+    {
+      "date": "2026-04-14",
+      "name": "Wiltshire Running",
+      "distance_km": 5.01,
+      "duration": "28:42",
+      "pace": "5:44 /km",
+      "avg_hr": 150,
+      "elevation_gain": 56,
+      "elevation_loss": 56
+    },
+    {
+      "date": "2026-04-06",
+      "name": "Kirklees Running",
+      "distance_km": 5.06,
+      "duration": "27:39",
+      "pace": "5:27 /km",
+      "avg_hr": 152,
+      "elevation_gain": 18,
+      "elevation_loss": 82
+    },
+    {
+      "date": "2026-04-04",
+      "name": "Kirklees Running",
+      "distance_km": 6.02,
+      "duration": "33:20",
+      "pace": "5:32 /km",
+      "avg_hr": 151,
+      "elevation_gain": 17,
+      "elevation_loss": 101
+    },
+    {
+      "date": "2026-04-02",
+      "name": "Kirklees Running",
+      "distance_km": 5.06,
+      "duration": "27:28",
+      "pace": "5:25 /km",
+      "avg_hr": 153,
+      "elevation_gain": 16,
+      "elevation_loss": 85
+    },
+    {
+      "date": "2026-03-31",
+      "name": "Kirklees Running",
+      "distance_km": 5.16,
+      "duration": "28:49",
+      "pace": "5:35 /km",
+      "avg_hr": 155,
+      "elevation_gain": 25,
+      "elevation_loss": 89
+    },
+    {
+      "date": "2026-03-26",
+      "name": "Kirklees Running",
+      "distance_km": 5.07,
+      "duration": "28:12",
+      "pace": "5:33 /km",
+      "avg_hr": 153,
+      "elevation_gain": 18,
+      "elevation_loss": 88
+    },
+    {
+      "date": "2026-03-23",
+      "name": "Kirklees Running",
+      "distance_km": 5.05,
+      "duration": "27:30",
+      "pace": "5:27 /km",
+      "avg_hr": 154,
+      "elevation_gain": 17,
+      "elevation_loss": 80
+    },
+    {
+      "date": "2026-03-19",
+      "name": "Kirklees Running",
+      "distance_km": 5.05,
+      "duration": "27:12",
+      "pace": "5:23 /km",
+      "avg_hr": 152,
+      "elevation_gain": 24,
+      "elevation_loss": 103
+    },
+    {
+      "date": "2026-03-16",
+      "name": "Wiltshire Running",
+      "distance_km": 4.01,
+      "duration": "22:26",
+      "pace": "5:35 /km",
+      "avg_hr": 155,
+      "elevation_gain": 33,
+      "elevation_loss": 44
+    },
+    {
+      "date": "2026-03-11",
+      "name": "Kirklees Running",
+      "distance_km": 5.02,
+      "duration": "27:28",
+      "pace": "5:28 /km",
+      "avg_hr": 158,
+      "elevation_gain": 20,
+      "elevation_loss": 83
+    },
+    {
+      "date": "2026-03-09",
+      "name": "Kirklees Running",
+      "distance_km": 5.06,
+      "duration": "27:56",
+      "pace": "5:31 /km",
+      "avg_hr": 156,
+      "elevation_gain": 16,
+      "elevation_loss": 81
+    },
+    {
+      "date": "2026-03-03",
+      "name": "Kirklees Running",
+      "distance_km": 5.01,
+      "duration": "27:41",
+      "pace": "5:31 /km",
+      "avg_hr": 157,
+      "elevation_gain": 15,
+      "elevation_loss": 78
+    },
+    {
+      "date": "2026-02-27",
+      "name": "Kirklees Running",
+      "distance_km": 5.02,
+      "duration": "28:43",
+      "pace": "5:43 /km",
+      "avg_hr": 158,
+      "elevation_gain": 18,
+      "elevation_loss": 77
+    },
+    {
+      "date": "2026-02-12",
+      "name": "Kirklees Running",
+      "distance_km": 5.09,
+      "duration": "28:02",
+      "pace": "5:30 /km",
+      "avg_hr": 146,
+      "elevation_gain": 15,
+      "elevation_loss": 82
+    },
+    {
+      "date": "2026-02-10",
+      "name": "Kirklees Running",
+      "distance_km": 5.03,
+      "duration": "27:30",
+      "pace": "5:28 /km",
+      "avg_hr": 148,
+      "elevation_gain": 16,
+      "elevation_loss": 77
+    },
+    {
+      "date": "2026-02-07",
+      "name": "Kirklees Running",
+      "distance_km": 5.08,
+      "duration": "27:46",
+      "pace": "5:27 /km",
+      "avg_hr": 150,
+      "elevation_gain": 15,
+      "elevation_loss": 82
+    },
+    {
+      "date": "2026-01-31",
+      "name": "Kirklees Running",
+      "distance_km": 10.01,
+      "duration": "54:38",
+      "pace": "5:27 /km",
+      "avg_hr": 162,
+      "elevation_gain": 75,
+      "elevation_loss": 157
+    },
+    {
+      "date": "2026-01-28",
+      "name": "Kirklees Running",
+      "distance_km": 5.03,
+      "duration": "28:06",
+      "pace": "5:35 /km",
+      "avg_hr": 147,
+      "elevation_gain": 15,
+      "elevation_loss": 79
+    },
+    {
+      "date": "2026-01-24",
+      "name": "Kirklees Running",
+      "distance_km": 5.1,
+      "duration": "27:38",
+      "pace": "5:24 /km",
+      "avg_hr": 153,
+      "elevation_gain": 21,
+      "elevation_loss": 87
+    },
+    {
+      "date": "2026-01-21",
+      "name": "Kirklees Running",
+      "distance_km": 5.09,
+      "duration": "28:35",
+      "pace": "5:37 /km",
+      "avg_hr": 145,
+      "elevation_gain": 20,
+      "elevation_loss": 82
+    },
+    {
+      "date": "2026-01-20",
+      "name": "Kirklees Running",
+      "distance_km": 5.03,
+      "duration": "27:52",
+      "pace": "5:32 /km",
+      "avg_hr": 150,
+      "elevation_gain": 19,
+      "elevation_loss": 78
+    },
+    {
+      "date": "2026-01-17",
+      "name": "Copeland Running",
+      "distance_km": 5.03,
+      "duration": "26:18",
+      "pace": "5:13 /km",
+      "avg_hr": 147,
+      "elevation_gain": 19,
+      "elevation_loss": 93
+    },
+    {
+      "date": "2026-01-13",
+      "name": "Kirklees Running",
+      "distance_km": 5.03,
+      "duration": "28:22",
+      "pace": "5:38 /km",
+      "avg_hr": 148,
+      "elevation_gain": 15,
+      "elevation_loss": 78
     }
   ],
   "personal_bests": {
@@ -319,5 +619,5 @@
       "date": "2026-05-30"
     }
   },
-  "updated": "2026-06-15T15:01:55Z"
+  "updated": "2026-06-15T15:44:58Z"
 }
