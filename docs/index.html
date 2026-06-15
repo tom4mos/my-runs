@@ -312,6 +312,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    .week-day--other-month { background: transparent; border-color: transparent; opacity: 0; pointer-events: none; }
     .week-block { margin-bottom: 0.75rem; }
     .week-label {
       font-size: 0.68rem;
@@ -447,7 +448,7 @@
     };
   }
 
-  function buildWeekGridHtml(weekMon, runs) {
+  function buildWeekGridHtml(weekMon, runs, activeMonthKey) {
     const DAY_NAMES = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
     const runsByDay = {};
     runs.forEach(r => {
@@ -461,9 +462,13 @@
       const date = new Date(weekMon);
       date.setDate(weekMon.getDate() + i);
       const dayNum = date.getDate();
-      const dayRuns = runsByDay[i] || [];
-      const isEmpty = dayRuns.length === 0;
-      html += `<div class="week-day${isEmpty ? ' week-day--empty' : ''}">
+      const dayMKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      const isOtherMonth = activeMonthKey && dayMKey !== activeMonthKey;
+      const dayRuns = isOtherMonth ? [] : (runsByDay[i] || []);
+      let cls = 'week-day';
+      if (isOtherMonth) cls += ' week-day--other-month';
+      else if (dayRuns.length === 0) cls += ' week-day--empty';
+      html += `<div class="${cls}">
         <div class="week-day-name">${DAY_NAMES[i]}</div>
         <div class="week-day-num">${dayNum}</div>
         <div class="week-day-pills">${dayRuns.map(r =>
@@ -526,17 +531,27 @@
       const monthBuckets = {};
       weekKeys.forEach(wk => {
         const { mon } = grouped[wk];
-        const mKey = `${mon.getFullYear()}-${String(mon.getMonth() + 1).padStart(2, '0')}`;
-        const mLabel = mon.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
-        if (!monthBuckets[mKey]) monthBuckets[mKey] = { label: mLabel, weekKeys: [] };
-        monthBuckets[mKey].weekKeys.push(wk);
+        const seen = new Set();
+        for (let i = 0; i < 7; i++) {
+          const d = new Date(mon);
+          d.setDate(mon.getDate() + i);
+          const mKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+          if (seen.has(mKey)) continue;
+          seen.add(mKey);
+          if (!monthBuckets[mKey]) {
+            const mLabel = new Date(d.getFullYear(), d.getMonth(), 1)
+              .toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+            monthBuckets[mKey] = { label: mLabel, weekKeys: [] };
+          }
+          monthBuckets[mKey].weekKeys.push(wk);
+        }
       });
       Object.keys(monthBuckets).sort((a, b) => b.localeCompare(a)).forEach(mKey => {
         const { label: mLabel, weekKeys: mWeekKeys } = monthBuckets[mKey];
         html += `<div class="month-group"><h2 class="month-header">${mLabel}</h2>`;
         mWeekKeys.forEach(wk => {
           const { label: wLabel, mon, runs: weekRuns } = grouped[wk];
-          html += `<div class="week-block"><div class="week-label">${wLabel}</div>${buildWeekGridHtml(mon, weekRuns)}</div>`;
+          html += `<div class="week-block"><div class="week-label">${wLabel}</div>${buildWeekGridHtml(mon, weekRuns, mKey)}</div>`;
         });
         html += '</div>';
       });
