@@ -265,6 +265,54 @@
     }
     .toggle-btn.active { background: rgba(255,255,255,0.2); border-color: #fff; }
 
+    .week-row {
+      display: flex;
+      gap: 4px;
+    }
+    .week-day {
+      flex: 1;
+      min-width: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 0.2rem 0.4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .week-day--empty { opacity: 0.35; }
+    .week-day-name {
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .week-day-num {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 0.3rem;
+    }
+    .week-day-pills {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      width: 100%;
+    }
+    .week-pill {
+      background: var(--pill-bg);
+      border-radius: 10px;
+      padding: 0.15rem 0.2rem;
+      font-size: 0.67rem;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     @media (min-width: 480px) {
       header h1 { font-size: 1.8rem; }
       .run-list  { padding: 0 1.5rem 2rem; }
@@ -388,7 +436,36 @@
     return {
       key: `${year}-W${String(weekNum).padStart(2, '0')}`,
       label: `${fmt(mon)} – ${fmt(sun)} ${year}`,
+      mon,
     };
+  }
+
+  function buildWeekGridHtml(weekMon, runs) {
+    const DAY_NAMES = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+    const runsByDay = {};
+    runs.forEach(r => {
+      const d = new Date(r.date + 'T00:00:00');
+      const offset = (d.getDay() + 6) % 7;
+      if (!runsByDay[offset]) runsByDay[offset] = [];
+      runsByDay[offset].push(r);
+    });
+    let html = '<div class="week-row">';
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(weekMon);
+      date.setDate(weekMon.getDate() + i);
+      const dayNum = date.getDate();
+      const dayRuns = runsByDay[i] || [];
+      const isEmpty = dayRuns.length === 0;
+      html += `<div class="week-day${isEmpty ? ' week-day--empty' : ''}">
+        <div class="week-day-name">${DAY_NAMES[i]}</div>
+        <div class="week-day-num">${dayNum}</div>
+        <div class="week-day-pills">${dayRuns.map(r =>
+          `<span class="week-pill">${r.distance_km} km</span><span class="week-pill">${r.duration}</span>`
+        ).join('')}</div>
+      </div>`;
+    }
+    html += '</div>';
+    return html;
   }
 
   function buildRunCardHtml(r) {
@@ -425,8 +502,8 @@
     const grouped = {};
     if (currentView === 'weekly') {
       cachedRuns.forEach(r => {
-        const { key, label } = getISOWeekKey(r.date);
-        if (!grouped[key]) grouped[key] = { label, runs: [] };
+        const { key, label, mon } = getISOWeekKey(r.date);
+        if (!grouped[key]) grouped[key] = { label, mon, runs: [] };
         grouped[key].runs.push(r);
       });
     } else {
@@ -438,9 +515,13 @@
     }
     let html = '';
     Object.keys(grouped).sort((a, b) => b.localeCompare(a)).forEach(key => {
-      const { label, runs: groupRuns } = grouped[key];
+      const { label, mon, runs: groupRuns } = grouped[key];
       html += `<div class="month-group"><h2 class="month-header">${label}</h2>`;
-      groupRuns.forEach(r => { html += buildRunCardHtml(r); });
+      if (currentView === 'weekly') {
+        html += buildWeekGridHtml(mon, groupRuns);
+      } else {
+        groupRuns.forEach(r => { html += buildRunCardHtml(r); });
+      }
       html += '</div>';
     });
     document.getElementById('runs').innerHTML = html;
