@@ -540,7 +540,7 @@
         html += `<div class="month-group"><h2 class="month-header">${mLabel}</h2>`;
         mWeekKeys.forEach(wk => {
           const { label: wLabel, mon, runs: weekRuns } = grouped[wk];
-          html += `<div class="week-block"><div class="week-label">${wLabel}</div>${buildWeekGridHtml(mon, weekRuns, mKey)}</div>`;
+          html += `<div class="week-block">${buildWeekGridHtml(mon, weekRuns, mKey)}</div>`;
         });
         html += '</div>';
       });
