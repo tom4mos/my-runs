@@ -4,7 +4,7 @@ A lightweight static website that pulls Garmin Connect run data and displays it 
 
 ## What this project does
 
-- `fetch_runs.py` logs into Garmin Connect and saves up to 30 recent runs plus personal bests to `docs/data.json`
+- `fetch_runs.py` logs into Garmin Connect and saves up to 60 recent runs plus personal bests to `docs/data.json`
 - `docs/index.html` reads that JSON and displays personal bests, summary stats, and run cards
 - A GitHub Action (`.github/workflows/update_runs.yml`) runs the script every day at 11:00 UTC and commits the updated data
 - The site is hosted on GitHub Pages serving from the `docs/` folder
@@ -28,7 +28,7 @@ GitHub Pages updates within about a minute.
 ## Data pipeline — fetch_runs.py
 
 The script makes two Garmin API calls:
-1. `get_activities(0, 50)` — bulk summary; provides distance, duration, pace, avg HR, elevation gain/loss for up to 50 activities (filtered to 30 runs)
+1. `get_activities(0, 100)` — bulk summary; provides distance, duration, pace, avg HR, elevation gain/loss for up to 100 activities (filtered to 60 runs)
 2. `get_personal_record()` — returns all-time personal records; the script extracts 5K (typeId 3), 10K (typeId 4), and Longest Run (typeId 7)
 
 Known typeId sequence: 2=1 mile, 3=5K, 4=10K, 5=half marathon, 6=marathon, 7=longest run. For time-based records (5K, 10K) the value is in seconds; for Longest Run it is in metres.
@@ -65,13 +65,14 @@ Known typeId sequence: 2=1 mile, 3=5K, 4=10K, 5=half marathon, 6=marathon, 7=lon
 - Mobile-first, minimal layout
 - All times displayed in 24-hour format
 - Page sections from top to bottom:
-  1. **Header** — title plus "Updated DD Mon YYYY at HH:MM" timestamp (local timezone, 24h)
+  1. **Header** — title, Daily/Weekly view toggle, and "Updated DD Mon YYYY at HH:MM" timestamp (local timezone, 24h)
   2. **Personal Bests** — cards for 5K, 10K, and Longest Run (hidden if no data)
-  3. **Last 30 Runs** — total km and total time summary cards
-  4. **Run list** — runs grouped by month under an uppercase month header
+  3. **Last 60 Runs** — total km and total time summary cards
+  4. **Run list** — switchable between two views (controlled by the header toggle):
+     - **Daily view** — runs grouped by month under an uppercase month header; each run is a row with a desk-calendar widget on the left and a card showing the run name, then two rows of stat pills — row 1: distance, duration, pace, heart rate; row 2: elevation gain (↑) and elevation loss (↓)
+     - **Weekly view** — weeks grouped by month under an uppercase month header; each week is a row of 7 day cards (Mon–Sun) with a small date-range label above; days with a run show distance and duration pills stacked vertically, empty days are faded
   5. **Footer** — three lines: data source, daily schedule time in UTC and local equivalent, live local clock (ticks every second, 24h)
   6. **Sync button** — below the footer; triggers the `update_runs.yml` workflow via the GitHub API
-- Each run is a row: a small desk-calendar widget on the left beside a card showing the run name, then two rows of stat pills — row 1: distance, duration, pace, heart rate; row 2: elevation gain (↑) and elevation loss (↓)
 
 ## Manual sync button
 

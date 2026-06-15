@@ -75,7 +75,7 @@ def main():
     client = Garmin(email, password)
     client.login()
 
-    activities = client.get_activities(0, 50)
+    activities = client.get_activities(0, 100)
 
     act_lookup = {a.get("activityId"): a for a in activities if a.get("activityId")}
     personal_bests = fetch_personal_bests(client, act_lookup)
@@ -105,7 +105,7 @@ def main():
 
         runs.append(run)
 
-        if len(runs) >= 30:
+        if len(runs) >= 60:
             break
 
     os.makedirs("docs", exist_ok=True)

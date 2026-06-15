@@ -312,6 +312,13 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    .week-block { margin-bottom: 0.75rem; }
+    .week-label {
+      font-size: 0.68rem;
+      color: var(--muted);
+      font-weight: 500;
+      padding-bottom: 0.3rem;
+    }
 
     @media (min-width: 480px) {
       header h1 { font-size: 1.8rem; }
@@ -336,7 +343,7 @@
 </div>
 
 <div class="summary-section">
-  <h2 class="month-header">Last 30 Runs</h2>
+  <h2 class="month-header">Last 60 Runs</h2>
   <div class="summary" id="summary"></div>
 </div>
 
@@ -514,16 +521,33 @@
       });
     }
     let html = '';
-    Object.keys(grouped).sort((a, b) => b.localeCompare(a)).forEach(key => {
-      const { label, mon, runs: groupRuns } = grouped[key];
-      html += `<div class="month-group"><h2 class="month-header">${label}</h2>`;
-      if (currentView === 'weekly') {
-        html += buildWeekGridHtml(mon, groupRuns);
-      } else {
+    if (currentView === 'weekly') {
+      const weekKeys = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
+      const monthBuckets = {};
+      weekKeys.forEach(wk => {
+        const { mon } = grouped[wk];
+        const mKey = `${mon.getFullYear()}-${String(mon.getMonth() + 1).padStart(2, '0')}`;
+        const mLabel = mon.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+        if (!monthBuckets[mKey]) monthBuckets[mKey] = { label: mLabel, weekKeys: [] };
+        monthBuckets[mKey].weekKeys.push(wk);
+      });
+      Object.keys(monthBuckets).sort((a, b) => b.localeCompare(a)).forEach(mKey => {
+        const { label: mLabel, weekKeys: mWeekKeys } = monthBuckets[mKey];
+        html += `<div class="month-group"><h2 class="month-header">${mLabel}</h2>`;
+        mWeekKeys.forEach(wk => {
+          const { label: wLabel, mon, runs: weekRuns } = grouped[wk];
+          html += `<div class="week-block"><div class="week-label">${wLabel}</div>${buildWeekGridHtml(mon, weekRuns)}</div>`;
+        });
+        html += '</div>';
+      });
+    } else {
+      Object.keys(grouped).sort((a, b) => b.localeCompare(a)).forEach(key => {
+        const { label, runs: groupRuns } = grouped[key];
+        html += `<div class="month-group"><h2 class="month-header">${label}</h2>`;
         groupRuns.forEach(r => { html += buildRunCardHtml(r); });
-      }
-      html += '</div>';
-    });
+        html += '</div>';
+      });
+    }
     document.getElementById('runs').innerHTML = html;
   }
 
