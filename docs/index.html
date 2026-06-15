@@ -304,7 +304,56 @@
       margin: 2px auto 0;
     }
     .week-day--other-month { background: transparent; border-color: transparent; opacity: 0; pointer-events: none; }
+    .week-day--has-run { cursor: pointer; }
+    .week-day--has-run:hover .week-run-dot { background: #219a52; }
     .week-block { margin-bottom: 0.75rem; }
+
+    #day-detail-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 100;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    #day-detail-overlay.open { display: flex; }
+    #day-detail-card {
+      background: var(--card);
+      border-radius: 16px 16px 0 0;
+      padding: 1.25rem 1.25rem 2rem;
+      width: 100%;
+      max-width: 640px;
+      position: relative;
+      animation: slideUp 0.2s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+    #day-detail-close {
+      position: absolute;
+      top: 0.9rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: var(--muted);
+      cursor: pointer;
+      line-height: 1;
+      padding: 0.2rem 0.4rem;
+    }
+    #day-detail-name {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+      padding-right: 2rem;
+    }
+    #day-detail-date {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
     .week-label {
       font-size: 0.68rem;
       color: var(--muted);
@@ -361,6 +410,15 @@
     </div>
   </div>
   <button id="pat-forget" hidden>Forget saved token</button>
+</div>
+
+<div id="day-detail-overlay">
+  <div id="day-detail-card">
+    <button id="day-detail-close" aria-label="Close">&#215;</button>
+    <div id="day-detail-name"></div>
+    <div id="day-detail-date"></div>
+    <div id="day-detail-stats"></div>
+  </div>
 </div>
 
 <script>
@@ -459,7 +517,11 @@
       let cls = 'week-day';
       if (isOtherMonth) cls += ' week-day--other-month';
       else if (dayRuns.length === 0) cls += ' week-day--empty';
-      html += `<div class="${cls}">
+      else cls += ' week-day--has-run';
+      const dataAttr = dayRuns.length > 0
+        ? ` data-run="${JSON.stringify(dayRuns[0]).replace(/"/g, '&quot;')}"`
+        : '';
+      html += `<div class="${cls}"${dataAttr}>
         <div class="week-day-name">${DAY_NAMES[i]}</div>
         <div class="week-day-num">${dayNum}</div>
         ${dayRuns.length > 0 ? '<div class="week-run-dot"></div>' : ''}
@@ -713,6 +775,43 @@
 
   document.getElementById('btn-daily').addEventListener('click', () => setView('daily'));
   document.getElementById('btn-weekly').addEventListener('click', () => setView('weekly'));
+
+  // Day detail bottom sheet
+  function showDayDetail(run) {
+    const d = new Date(run.date + 'T00:00:00');
+    const dateStr = d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
+    document.getElementById('day-detail-name').textContent = run.name;
+    document.getElementById('day-detail-date').textContent = dateStr;
+    let statsHtml = `<div class="run-stats">
+      ${pill('distance', `${run.distance_km} km`)}
+      ${pill('duration', run.duration)}
+      ${pill('pace', run.pace)}
+      ${run.avg_hr ? pill('heart', `${run.avg_hr} bpm`, 'hr') : ''}
+    </div>`;
+    if (run.elevation_gain != null || run.elevation_loss != null) {
+      statsHtml += `<div class="run-stats" style="margin-top:0.35rem">
+        ${run.elevation_gain != null ? pill('elev_up', `${run.elevation_gain}m`) : ''}
+        ${run.elevation_loss != null ? pill('elev_down', `${run.elevation_loss}m`) : ''}
+      </div>`;
+    }
+    document.getElementById('day-detail-stats').innerHTML = statsHtml;
+    document.getElementById('day-detail-overlay').classList.add('open');
+  }
+
+  function hideDayDetail() {
+    document.getElementById('day-detail-overlay').classList.remove('open');
+  }
+
+  document.getElementById('day-detail-close').addEventListener('click', hideDayDetail);
+  document.getElementById('day-detail-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('day-detail-overlay')) hideDayDetail();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') hideDayDetail(); });
+  document.getElementById('runs').addEventListener('click', e => {
+    const cell = e.target.closest('.week-day--has-run');
+    if (!cell) return;
+    showDayDetail(JSON.parse(cell.dataset.run));
+  });
 </script>
 </body>
 </html>
