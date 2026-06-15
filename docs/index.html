@@ -296,21 +296,12 @@
       line-height: 1.2;
       margin-bottom: 0.3rem;
     }
-    .week-day-pills {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      width: 100%;
-    }
-    .week-pill {
-      background: var(--pill-bg);
-      border-radius: 10px;
-      padding: 0.15rem 0.2rem;
-      font-size: 0.67rem;
-      font-weight: 500;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .week-run-dot {
+      width: 22px;
+      height: 7px;
+      background: #27ae60;
+      border-radius: 4px;
+      margin: 2px auto 0;
     }
     .week-day--other-month { background: transparent; border-color: transparent; opacity: 0; pointer-events: none; }
     .week-block { margin-bottom: 0.75rem; }
@@ -333,7 +324,7 @@
   <h1>My Runs</h1>
   <div class="view-toggle">
     <button id="btn-daily" class="toggle-btn active">Daily</button>
-    <button id="btn-weekly" class="toggle-btn">Weekly</button>
+    <button id="btn-weekly" class="toggle-btn">Monthly</button>
   </div>
   <p id="updated-label">Loading…</p>
 </header>
@@ -471,9 +462,7 @@
       html += `<div class="${cls}">
         <div class="week-day-name">${DAY_NAMES[i]}</div>
         <div class="week-day-num">${dayNum}</div>
-        <div class="week-day-pills">${dayRuns.map(r =>
-          `<span class="week-pill">${r.distance_km} km</span><span class="week-pill">${r.duration}</span>`
-        ).join('')}</div>
+        ${dayRuns.length > 0 ? '<div class="week-run-dot"></div>' : ''}
       </div>`;
     }
     html += '</div>';
