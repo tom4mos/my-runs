@@ -65,12 +65,12 @@ Known typeId sequence: 2=1 mile, 3=5K, 4=10K, 5=half marathon, 6=marathon, 7=lon
 - Mobile-first, minimal layout
 - All times displayed in 24-hour format
 - Page sections from top to bottom:
-  1. **Header** — title, Daily/Weekly view toggle, and "Updated DD Mon YYYY at HH:MM" timestamp (local timezone, 24h)
+  1. **Header** — title, Daily/Monthly view toggle, and "Updated DD Mon YYYY at HH:MM" timestamp (local timezone, 24h)
   2. **Personal Bests** — cards for 5K, 10K, and Longest Run (hidden if no data)
   3. **Last 60 Runs** — total km and total time summary cards
   4. **Run list** — switchable between two views (controlled by the header toggle):
      - **Daily view** — runs grouped by month under an uppercase month header; each run is a row with a desk-calendar widget on the left and a card showing the run name, then two rows of stat pills — row 1: distance, duration, pace, heart rate; row 2: elevation gain (↑) and elevation loss (↓)
-     - **Weekly view** — weeks grouped by month under an uppercase month header; each week is a row of 7 day cards (Mon–Sun) with a small date-range label above; days with a run show distance and duration pills stacked vertically, empty days are faded
+     - **Monthly view** — weeks grouped by calendar month under an uppercase month header; each week is a row of 7 day cards (Mon–Sun); days with a run show a solid green pill indicator, rest days are faded; weeks that cross a month boundary are split across both months with invisible placeholder cells holding the grid positions for out-of-month days
   5. **Footer** — three lines: data source, daily schedule time in UTC and local equivalent, live local clock (ticks every second, 24h)
   6. **Sync button** — below the footer; triggers the `update_runs.yml` workflow via the GitHub API
 

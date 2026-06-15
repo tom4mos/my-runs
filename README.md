@@ -1,6 +1,6 @@
 # My Runs — Setup Guide
 
-A simple website that automatically pulls your Garmin running data and displays it at a public URL.
+A simple website that automatically pulls your Garmin running data and displays it at a public URL. It shows your last 60 runs, personal bests for 5K, 10K and longest run, and lets you switch between a daily list view and a monthly calendar-style view.
 
 ---
 
@@ -60,7 +60,7 @@ After about a minute, GitHub will show you your site URL — something like `htt
 
 ### Step 4 — Run the Action for the first time
 
-The Action normally runs at 6 AM UTC every day. To get your data straight away:
+The Action normally runs at 11:00 AM UTC every day. To get your data straight away:
 
 1. Go to the **Actions** tab in your repository.
 2. Click **Update run data** on the left.
@@ -78,7 +78,9 @@ Just send them your GitHub Pages URL — for example `https://your-username.gith
 
 ## Updating the data manually
 
-Any time you want to force a refresh (e.g. straight after a run), go to **Actions → Update run data → Run workflow**.
+Any time you want to force a refresh (e.g. straight after a run), you can either:
+- Click the **↻ Sync now** button at the bottom of the page (requires a GitHub Personal Access Token with Actions: write permission — the page will prompt you the first time), or
+- Go to **Actions → Update run data → Run workflow** on GitHub.
 
 ---
 
