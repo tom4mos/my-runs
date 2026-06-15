@@ -62,15 +62,16 @@ Known typeId sequence: 2=1 mile, 3=5K, 4=10K, 5=half marathon, 6=marathon, 7=lon
 
 - Font: Inter (Google Fonts), falling back to Helvetica Neue / Helvetica
 - Colour scheme: white and grey, near-black (#111) header and accents; all colours are CSS variables in `:root`
+- Supports **light and dark mode** — toggled by a moon/sun icon button in the top-right of the header; preference persisted in `localStorage` under the key `theme`; defaults to the OS `prefers-color-scheme` on first visit
 - Mobile-first, minimal layout
 - All times displayed in 24-hour format
 - Page sections from top to bottom:
-  1. **Header** — title, Daily/Monthly view toggle, and "Updated DD Mon YYYY at HH:MM" timestamp (local timezone, 24h)
+  1. **Header** — title, Daily/Monthly view toggle, "Updated DD Mon YYYY at HH:MM" timestamp (local timezone, 24h), and dark mode toggle button (top-right, absolutely positioned)
   2. **Personal Bests** — cards for 5K, 10K, and Longest Run (hidden if no data)
   3. **Last 60 Runs** — total km and total time summary cards
   4. **Run list** — switchable between two views (controlled by the header toggle):
      - **Daily view** — runs grouped by month under an uppercase month header; each run is a row with a desk-calendar widget on the left and a card showing the run name, then two rows of stat pills — row 1: distance, duration, pace, heart rate; row 2: elevation gain (↑) and elevation loss (↓)
-     - **Monthly view** — weeks grouped by calendar month under an uppercase month header; each week is a row of 7 day cards (Mon–Sun); days with a run show a solid green pill indicator, rest days are faded; weeks that cross a month boundary are split across both months with invisible placeholder cells holding the grid positions for out-of-month days
+     - **Monthly view** — weeks grouped by calendar month under an uppercase month header; each week is a row of 7 day cards (Mon–Sun); days with a run show a solid green pill indicator, rest days are faded; weeks that cross a month boundary are split across both months with invisible placeholder cells holding the grid positions for out-of-month days; **clicking a day with a run** slides up a bottom-sheet card showing the run name, date, and all stat pills — dismissed by tapping the backdrop, the × button, or pressing Escape
   5. **Footer** — three lines: data source, daily schedule time in UTC and local equivalent, live local clock (ticks every second, 24h)
   6. **Sync button** — below the footer; triggers the `update_runs.yml` workflow via the GitHub API
 
