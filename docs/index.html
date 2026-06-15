@@ -251,6 +251,20 @@
       margin: 0.5rem auto 0;
     }
 
+    .view-toggle { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.75rem; }
+    .toggle-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+      border-radius: 20px;
+      padding: 0.25rem 0.9rem;
+      font: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .toggle-btn.active { background: rgba(255,255,255,0.2); border-color: #fff; }
+
     @media (min-width: 480px) {
       header h1 { font-size: 1.8rem; }
       .run-list  { padding: 0 1.5rem 2rem; }
@@ -261,6 +275,10 @@
 
 <header>
   <h1>My Runs</h1>
+  <div class="view-toggle">
+    <button id="btn-daily" class="toggle-btn active">Daily</button>
+    <button id="btn-weekly" class="toggle-btn">Weekly</button>
+  </div>
   <p id="updated-label">Loading…</p>
 </header>
 
@@ -353,6 +371,88 @@
     }
   }
 
+  let currentView = 'daily';
+  let cachedRuns = [];
+
+  function getISOWeekKey(dateStr) {
+    const d = new Date(dateStr + 'T00:00:00');
+    const day = (d.getDay() + 6) % 7;
+    const mon = new Date(d);
+    mon.setDate(d.getDate() - day);
+    const sun = new Date(mon);
+    sun.setDate(mon.getDate() + 6);
+    const year = mon.getFullYear();
+    const startOfYear = new Date(year, 0, 1);
+    const weekNum = Math.ceil(((mon - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+    const fmt = dt => dt.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    return {
+      key: `${year}-W${String(weekNum).padStart(2, '0')}`,
+      label: `${fmt(mon)} – ${fmt(sun)} ${year}`,
+    };
+  }
+
+  function buildRunCardHtml(r) {
+    const { dayName, dayNum } = getDateParts(r.date);
+    return `
+      <div class="run-row">
+        <div class="run-cal">
+          <span class="cal-day">${dayName}</span>
+          <span class="cal-num">${dayNum}</span>
+        </div>
+        <div class="run-card">
+          <div class="run-header">
+            <span class="run-name">${r.name}</span>
+          </div>
+          <div class="run-stats">
+            ${pill('distance', `${r.distance_km} km`)}
+            ${pill('duration', r.duration)}
+            ${pill('pace', r.pace)}
+            ${r.avg_hr ? pill('heart', `${r.avg_hr} bpm`, 'hr') : ''}
+          </div>
+          ${(r.elevation_gain != null || r.elevation_loss != null) ? `<div class="run-stats" style="margin-top:0.35rem">
+            ${r.elevation_gain != null ? pill('elev_up', `${r.elevation_gain}m`) : ''}
+            ${r.elevation_loss != null ? pill('elev_down', `${r.elevation_loss}m`) : ''}
+          </div>` : ''}
+        </div>
+      </div>`;
+  }
+
+  function renderRunList() {
+    if (cachedRuns.length === 0) {
+      document.getElementById('runs').innerHTML = '<div class="empty">No runs found yet.</div>';
+      return;
+    }
+    const grouped = {};
+    if (currentView === 'weekly') {
+      cachedRuns.forEach(r => {
+        const { key, label } = getISOWeekKey(r.date);
+        if (!grouped[key]) grouped[key] = { label, runs: [] };
+        grouped[key].runs.push(r);
+      });
+    } else {
+      cachedRuns.forEach(r => {
+        const { monthKey, monthYear } = getDateParts(r.date);
+        if (!grouped[monthKey]) grouped[monthKey] = { label: monthYear, runs: [] };
+        grouped[monthKey].runs.push(r);
+      });
+    }
+    let html = '';
+    Object.keys(grouped).sort((a, b) => b.localeCompare(a)).forEach(key => {
+      const { label, runs: groupRuns } = grouped[key];
+      html += `<div class="month-group"><h2 class="month-header">${label}</h2>`;
+      groupRuns.forEach(r => { html += buildRunCardHtml(r); });
+      html += '</div>';
+    });
+    document.getElementById('runs').innerHTML = html;
+  }
+
+  function setView(view) {
+    currentView = view;
+    document.getElementById('btn-daily').classList.toggle('active', view === 'daily');
+    document.getElementById('btn-weekly').classList.toggle('active', view === 'weekly');
+    renderRunList();
+  }
+
   fetch("data.json")
     .then(r => { if (!r.ok) throw new Error("not found"); return r.json(); })
     .then(data => {
@@ -385,50 +485,8 @@
       `;
 
       // Run cards
-      if (runs.length === 0) {
-        document.getElementById("runs").innerHTML = `<div class="empty">No runs found yet.</div>`;
-        return;
-      }
-
-      const grouped = {};
-      runs.forEach(r => {
-        const { monthKey, monthYear } = getDateParts(r.date);
-        if (!grouped[monthKey]) grouped[monthKey] = { label: monthYear, runs: [] };
-        grouped[monthKey].runs.push(r);
-      });
-
-      let html = "";
-      Object.keys(grouped).sort((a, b) => b.localeCompare(a)).forEach(key => {
-        const { label, runs: monthRuns } = grouped[key];
-        html += `<div class="month-group"><h2 class="month-header">${label}</h2>`;
-        monthRuns.forEach(r => {
-          const { dayName, dayNum } = getDateParts(r.date);
-          html += `
-            <div class="run-row">
-              <div class="run-cal">
-                <span class="cal-day">${dayName}</span>
-                <span class="cal-num">${dayNum}</span>
-              </div>
-              <div class="run-card">
-                <div class="run-header">
-                  <span class="run-name">${r.name}</span>
-                </div>
-                <div class="run-stats">
-                  ${pill("distance", `${r.distance_km} km`)}
-                  ${pill("duration", r.duration)}
-                  ${pill("pace", r.pace)}
-                  ${r.avg_hr ? pill("heart", `${r.avg_hr} bpm`, "hr") : ""}
-                </div>
-                ${(r.elevation_gain != null || r.elevation_loss != null) ? `<div class="run-stats" style="margin-top:0.35rem">
-                  ${r.elevation_gain != null ? pill("elev_up", `${r.elevation_gain}m`) : ""}
-                  ${r.elevation_loss != null ? pill("elev_down", `${r.elevation_loss}m`) : ""}
-                </div>` : ""}
-              </div>
-            </div>`;
-        });
-        html += `</div>`;
-      });
-      document.getElementById("runs").innerHTML = html;
+      cachedRuns = runs;
+      renderRunList();
 
     })
     .catch(() => {
@@ -543,6 +601,9 @@
   }
   updateClock();
   setInterval(updateClock, 1000);
+
+  document.getElementById('btn-daily').addEventListener('click', () => setView('daily'));
+  document.getElementById('btn-weekly').addEventListener('click', () => setView('weekly'));
 </script>
 </body>
 </html>
