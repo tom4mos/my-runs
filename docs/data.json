@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-06-17",
+      "name": "Kirklees - Base",
+      "distance_km": 7.15,
+      "duration": "46:04",
+      "pace": "6:26 /km",
+      "avg_hr": 140,
+      "elevation_gain": 69,
+      "elevation_loss": 122
+    },
+    {
       "date": "2026-06-16",
       "name": "Kirklees - Base",
       "distance_km": 7.27,
@@ -589,16 +599,6 @@
       "avg_hr": 150,
       "elevation_gain": 19,
       "elevation_loss": 78
-    },
-    {
-      "date": "2026-01-17",
-      "name": "Copeland Running",
-      "distance_km": 5.03,
-      "duration": "26:18",
-      "pace": "5:13 /km",
-      "avg_hr": 147,
-      "elevation_gain": 19,
-      "elevation_loss": 93
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-05-30"
     }
   },
-  "updated": "2026-06-16T15:57:07Z"
+  "updated": "2026-06-17T13:44:41Z"
 }
