@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-07-08",
+      "name": "Kirklees - Base",
+      "distance_km": 8.46,
+      "duration": "54:08",
+      "pace": "6:24 /km",
+      "avg_hr": 138,
+      "elevation_gain": 46,
+      "elevation_loss": 129
+    },
+    {
       "date": "2026-07-07",
       "name": "Kirklees - Base",
       "distance_km": 8.57,
@@ -589,16 +599,6 @@
       "avg_hr": 152,
       "elevation_gain": 24,
       "elevation_loss": 103
-    },
-    {
-      "date": "2026-03-16",
-      "name": "Wiltshire Running",
-      "distance_km": 4.01,
-      "duration": "22:26",
-      "pace": "5:35 /km",
-      "avg_hr": 155,
-      "elevation_gain": 33,
-      "elevation_loss": 44
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-07-07T11:39:41Z"
+  "updated": "2026-07-08T10:56:03Z"
 }
