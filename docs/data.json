@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-07-15",
+      "name": "Kirklees Running",
+      "distance_km": 5.12,
+      "duration": "30:38",
+      "pace": "5:59 /km",
+      "avg_hr": 139,
+      "elevation_gain": 42,
+      "elevation_loss": 80
+    },
+    {
       "date": "2026-07-11",
       "name": "Kirklees - 10K Plan with Garmin Run Coach",
       "distance_km": 10.01,
@@ -589,16 +599,6 @@
       "avg_hr": 153,
       "elevation_gain": 18,
       "elevation_loss": 88
-    },
-    {
-      "date": "2026-03-23",
-      "name": "Kirklees Running",
-      "distance_km": 5.05,
-      "duration": "27:30",
-      "pace": "5:27 /km",
-      "avg_hr": 154,
-      "elevation_gain": 17,
-      "elevation_loss": 80
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-07-14T10:38:46Z"
+  "updated": "2026-07-15T10:43:05Z"
 }
