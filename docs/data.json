@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-09-04",
+      "name": "Kirklees Running",
+      "distance_km": 5.02,
+      "duration": "31:37",
+      "pace": "6:18 /km",
+      "avg_hr": 148,
+      "elevation_gain": 45,
+      "elevation_loss": 91
+    },
+    {
       "date": "2026-09-02",
       "name": "Kirklees Running",
       "distance_km": 5.32,
@@ -589,16 +599,6 @@
       "avg_hr": 152,
       "elevation_gain": 18,
       "elevation_loss": 80
-    },
-    {
-      "date": "2026-04-23",
-      "name": "Kirklees Running",
-      "distance_km": 5.1,
-      "duration": "29:00",
-      "pace": "5:41 /km",
-      "avg_hr": 154,
-      "elevation_gain": 18,
-      "elevation_loss": 81
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-09-03T13:08:35Z"
+  "updated": "2026-09-04T13:02:21Z"
 }
