@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-09-28",
+      "name": "Kirklees - W1 Mon Easy Run - 6km Easy Run (",
+      "distance_km": 6.02,
+      "duration": "38:39",
+      "pace": "6:25 /km",
+      "avg_hr": 142,
+      "elevation_gain": 50,
+      "elevation_loss": 99
+    },
+    {
       "date": "2026-09-24",
       "name": "Kirklees Running",
       "distance_km": 5.16,
@@ -589,16 +599,6 @@
       "avg_hr": 139,
       "elevation_gain": 60,
       "elevation_loss": 71
-    },
-    {
-      "date": "2026-05-05",
-      "name": "Kirklees - Base",
-      "distance_km": 4.82,
-      "duration": "30:09",
-      "pace": "6:15 /km",
-      "avg_hr": 140,
-      "elevation_gain": 52,
-      "elevation_loss": 99
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-09-27T14:27:22Z"
+  "updated": "2026-09-28T17:12:47Z"
 }
