@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-10-01",
+      "name": "Kirklees - W1 Thu Intervals - 400m Repeats",
+      "distance_km": 6.05,
+      "duration": "40:11",
+      "pace": "6:38 /km",
+      "avg_hr": 143,
+      "elevation_gain": 45,
+      "elevation_loss": 96
+    },
+    {
       "date": "2026-09-28",
       "name": "Kirklees - W1 Mon Easy Run - 6km Easy Run (",
       "distance_km": 6.02,
@@ -589,16 +599,6 @@
       "avg_hr": 133,
       "elevation_gain": 48,
       "elevation_loss": 98
-    },
-    {
-      "date": "2026-05-06",
-      "name": "Kirklees - Base",
-      "distance_km": 5.17,
-      "duration": "33:09",
-      "pace": "6:25 /km",
-      "avg_hr": 139,
-      "elevation_gain": 60,
-      "elevation_loss": 71
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-09-30T15:29:31Z"
+  "updated": "2026-10-01T11:53:25Z"
 }
