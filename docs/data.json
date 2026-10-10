@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-10-10",
+      "name": "Kirklees - W2 Sat Long Run - 6.5km Long Run",
+      "distance_km": 6.51,
+      "duration": "41:07",
+      "pace": "6:18 /km",
+      "avg_hr": 144,
+      "elevation_gain": 67,
+      "elevation_loss": 117
+    },
+    {
       "date": "2026-10-08",
       "name": "Kirklees - W2 Thu Easy Run #2 - 6km Easy Ru",
       "distance_km": 6.02,
@@ -589,16 +599,6 @@
       "avg_hr": 142,
       "elevation_gain": 77,
       "elevation_loss": 137
-    },
-    {
-      "date": "2026-05-15",
-      "name": "Kirklees - Sprint",
-      "distance_km": 5.22,
-      "duration": "38:55",
-      "pace": "7:27 /km",
-      "avg_hr": 125,
-      "elevation_gain": 32,
-      "elevation_loss": 83
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-10-09T15:40:57Z"
+  "updated": "2026-10-10T14:56:05Z"
 }
