@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-10-13",
+      "name": "Kirklees - W3 Tue Hills - Hill Repeats (7km",
+      "distance_km": 5.89,
+      "duration": "41:55",
+      "pace": "7:06 /km",
+      "avg_hr": 136,
+      "elevation_gain": 122,
+      "elevation_loss": 126
+    },
+    {
       "date": "2026-10-12",
       "name": "Kirklees - W3 Mon Easy Run - 7km Easy Run (",
       "distance_km": 7.02,
@@ -589,16 +599,6 @@
       "avg_hr": 140,
       "elevation_gain": 41,
       "elevation_loss": 86
-    },
-    {
-      "date": "2026-05-18",
-      "name": "Kirklees - VO2 Max",
-      "distance_km": 6.65,
-      "duration": "42:09",
-      "pace": "6:20 /km",
-      "avg_hr": 144,
-      "elevation_gain": 47,
-      "elevation_loss": 100
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-10-12T18:24:39Z"
+  "updated": "2026-10-13T16:37:01Z"
 }
