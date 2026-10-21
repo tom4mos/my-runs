@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-10-21",
+      "name": "Kirklees - W4 Wed Intervals - Pyramid Inter",
+      "distance_km": 5.33,
+      "duration": "37:26",
+      "pace": "7:01 /km",
+      "avg_hr": 135,
+      "elevation_gain": 57,
+      "elevation_loss": 85
+    },
+    {
       "date": "2026-10-19",
       "name": "Kirklees - W4 Mon Easy Run - 4.5km Easy Run",
       "distance_km": 4.54,
@@ -589,16 +599,6 @@
       "avg_hr": 142,
       "elevation_gain": 78,
       "elevation_loss": 139
-    },
-    {
-      "date": "2026-05-23",
-      "name": "Kirklees - Long Run",
-      "distance_km": 10.58,
-      "duration": "1:09:04",
-      "pace": "6:31 /km",
-      "avg_hr": 145,
-      "elevation_gain": 115,
-      "elevation_loss": 162
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-10-20T13:59:40Z"
+  "updated": "2026-10-21T14:15:27Z"
 }
