@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-10-22",
+      "name": "Kirklees - W4 Thu Easy Run #2 - 4km Easy Ru",
+      "distance_km": 4.02,
+      "duration": "27:20",
+      "pace": "6:48 /km",
+      "avg_hr": 133,
+      "elevation_gain": 32,
+      "elevation_loss": 90
+    },
+    {
       "date": "2026-10-21",
       "name": "Kirklees - W4 Wed Intervals - Pyramid Inter",
       "distance_km": 5.33,
@@ -589,16 +599,6 @@
       "avg_hr": 138,
       "elevation_gain": 59,
       "elevation_loss": 112
-    },
-    {
-      "date": "2026-05-25",
-      "name": "Copeland - Base",
-      "distance_km": 8.36,
-      "duration": "55:09",
-      "pace": "6:36 /km",
-      "avg_hr": 142,
-      "elevation_gain": 78,
-      "elevation_loss": 139
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-10-21T14:15:27Z"
+  "updated": "2026-10-22T14:15:04Z"
 }
