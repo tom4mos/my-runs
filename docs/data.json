@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-10-26",
+      "name": "Kirklees - W5 Mon Easy Run - 7km Easy Run (",
+      "distance_km": 7.02,
+      "duration": "45:27",
+      "pace": "6:28 /km",
+      "avg_hr": 140,
+      "elevation_gain": 56,
+      "elevation_loss": 109
+    },
+    {
       "date": "2026-10-24",
       "name": "Kirklees - W4 Sat Long Run - 5km Long Run (",
       "distance_km": 5.02,
@@ -589,16 +599,6 @@
       "avg_hr": 137,
       "elevation_gain": 111,
       "elevation_loss": 161
-    },
-    {
-      "date": "2026-05-27",
-      "name": "Copeland - Base",
-      "distance_km": 10.58,
-      "duration": "1:10:08",
-      "pace": "6:37 /km",
-      "avg_hr": 139,
-      "elevation_gain": 76,
-      "elevation_loss": 130
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-10-25T13:28:06Z"
+  "updated": "2026-10-26T15:39:50Z"
 }
