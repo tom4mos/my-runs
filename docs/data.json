@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-10-27",
+      "name": "Kirklees - W5 Tue Tempo - Rolling 400s (7km",
+      "distance_km": 7.15,
+      "duration": "46:54",
+      "pace": "6:33 /km",
+      "avg_hr": 140,
+      "elevation_gain": 62,
+      "elevation_loss": 113
+    },
+    {
       "date": "2026-10-26",
       "name": "Kirklees - W5 Mon Easy Run - 7km Easy Run (",
       "distance_km": 7.02,
@@ -589,16 +599,6 @@
       "avg_hr": 139,
       "elevation_gain": 115,
       "elevation_loss": 271
-    },
-    {
-      "date": "2026-05-29",
-      "name": "Kirklees - Base",
-      "distance_km": 10.48,
-      "duration": "1:10:10",
-      "pace": "6:41 /km",
-      "avg_hr": 137,
-      "elevation_gain": 111,
-      "elevation_loss": 161
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-10-26T15:39:50Z"
+  "updated": "2026-10-27T15:02:26Z"
 }
