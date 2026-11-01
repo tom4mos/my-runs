@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-11-01",
+      "name": "Kirklees - W5 Sun Long Run - 9km Hilly Long",
+      "distance_km": 9.01,
+      "duration": "59:51",
+      "pace": "6:38 /km",
+      "avg_hr": 140,
+      "elevation_gain": 133,
+      "elevation_loss": 192
+    },
+    {
       "date": "2026-10-28",
       "name": "Kirklees - W5 Wed Easy Run #2 - 6.5km Easy",
       "distance_km": 6.52,
@@ -589,16 +599,6 @@
       "avg_hr": 139,
       "elevation_gain": 62,
       "elevation_loss": 59
-    },
-    {
-      "date": "2026-06-01",
-      "name": "Kirklees - Threshold",
-      "distance_km": 6.51,
-      "duration": "39:05",
-      "pace": "6:00 /km",
-      "avg_hr": 144,
-      "elevation_gain": 41,
-      "elevation_loss": 107
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-10-31T14:55:15Z"
+  "updated": "2026-11-01T15:37:50Z"
 }
