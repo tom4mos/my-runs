@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-11-04",
+      "name": "Kirklees - W6 Wed Intervals - Drop Set (7.6",
+      "distance_km": 8.5,
+      "duration": "56:49",
+      "pace": "6:41 /km",
+      "avg_hr": 137,
+      "elevation_gain": 57,
+      "elevation_loss": 135
+    },
+    {
       "date": "2026-11-02",
       "name": "Kirklees - W6 Mon Easy Run - 9km Easy Run (",
       "distance_km": 9.02,
@@ -589,16 +599,6 @@
       "avg_hr": 140,
       "elevation_gain": 82,
       "elevation_loss": 101
-    },
-    {
-      "date": "2026-06-03",
-      "name": "Kirklees - Base",
-      "distance_km": 5.39,
-      "duration": "34:04",
-      "pace": "6:19 /km",
-      "avg_hr": 135,
-      "elevation_gain": 29,
-      "elevation_loss": 81
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-11-03T16:44:51Z"
+  "updated": "2026-11-04T16:41:31Z"
 }
