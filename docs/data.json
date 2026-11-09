@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-11-09",
+      "name": "Kirklees - W7 Mon Easy Run - 7km Easy Run (",
+      "distance_km": 7.03,
+      "duration": "46:14",
+      "pace": "6:34 /km",
+      "avg_hr": 132,
+      "elevation_gain": 51,
+      "elevation_loss": 102
+    },
+    {
       "date": "2026-11-07",
       "name": "Kirklees - W6 Sat Long Run - 10km Hilly Pro",
       "distance_km": 10.02,
@@ -589,16 +599,6 @@
       "avg_hr": 137,
       "elevation_gain": 68,
       "elevation_loss": 114
-    },
-    {
-      "date": "2026-06-09",
-      "name": "Kirklees - Base",
-      "distance_km": 7.26,
-      "duration": "46:40",
-      "pace": "6:25 /km",
-      "avg_hr": 139,
-      "elevation_gain": 62,
-      "elevation_loss": 116
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-11-08T15:40:57Z"
+  "updated": "2026-11-09T19:22:37Z"
 }
