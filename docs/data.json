@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-11-12",
+      "name": "Kirklees - W7 Thu Easy Run #2 - 6km Easy Ru",
+      "distance_km": 6.01,
+      "duration": "38:46",
+      "pace": "6:26 /km",
+      "avg_hr": 135,
+      "elevation_gain": 35,
+      "elevation_loss": 101
+    },
+    {
       "date": "2026-11-11",
       "name": "Kirklees - W7 Wed Hills - Shorter Hill Repe",
       "distance_km": 7.41,
@@ -589,16 +599,6 @@
       "avg_hr": 144,
       "elevation_gain": 62,
       "elevation_loss": 117
-    },
-    {
-      "date": "2026-06-12",
-      "name": "Kirklees - Anaerobic",
-      "distance_km": 7.48,
-      "duration": "47:45",
-      "pace": "6:22 /km",
-      "avg_hr": 142,
-      "elevation_gain": 72,
-      "elevation_loss": 117
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-11-11T16:47:07Z"
+  "updated": "2026-11-12T17:17:09Z"
 }
