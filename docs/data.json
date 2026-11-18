@@ -1,6 +1,16 @@
 {
   "runs": [
     {
+      "date": "2026-11-18",
+      "name": "Kirklees - W8 Wed Time Trial - 5km Time Tri",
+      "distance_km": 6.2,
+      "duration": "38:14",
+      "pace": "6:09 /km",
+      "avg_hr": 146,
+      "elevation_gain": 52,
+      "elevation_loss": 103
+    },
+    {
       "date": "2026-11-16",
       "name": "Kirklees - W8 Mon Easy Run - 5.5km Easy Run",
       "distance_km": 5.51,
@@ -589,16 +599,6 @@
       "avg_hr": 140,
       "elevation_gain": 69,
       "elevation_loss": 122
-    },
-    {
-      "date": "2026-06-16",
-      "name": "Kirklees - Base",
-      "distance_km": 7.27,
-      "duration": "46:05",
-      "pace": "6:20 /km",
-      "avg_hr": 136,
-      "elevation_gain": 49,
-      "elevation_loss": 102
     }
   ],
   "personal_bests": {
@@ -619,5 +619,5 @@
       "date": "2026-06-20"
     }
   },
-  "updated": "2026-11-17T18:00:10Z"
+  "updated": "2026-11-18T17:41:32Z"
 }
